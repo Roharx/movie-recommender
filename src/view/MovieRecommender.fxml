@@ -14,9 +14,12 @@
       <ListView fx:id="moviesView" layoutX="319.0" layoutY="122.0" prefHeight="363.0" prefWidth="247.0" />
       <MediaView fx:id="mediaView" fitHeight="363.0" fitWidth="500.0" layoutX="646.0" layoutY="122.0" />
       <ProgressBar fx:id="progressBar" layoutX="646.0" layoutY="485.0" prefWidth="500.0" progress="0.0" />
-      <Button fx:id="playMedia" layoutX="721.0" layoutY="503.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="25.0" prefWidth="52.0" text="▶" />
-      <Button fx:id="pauseMedia" layoutX="779.0" layoutY="503.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="25.0" prefWidth="52.0" text="⏸" />
+      <Button fx:id="playMedia" layoutX="728.0" layoutY="503.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="25.0" prefWidth="52.0" text="▶" />
+      <Button fx:id="pauseMedia" layoutX="800.0" layoutY="503.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="25.0" prefWidth="52.0" text="⏸" />
       <TextField fx:id="txtSearch" layoutX="24.0" layoutY="33.0" prefHeight="37.0" prefWidth="240.0" />
-      <Slider fx:id="volumeSlider" layoutX="1006.0" layoutY="509.0" />
+      <Slider fx:id="volumeSlider" layoutX="1000.0" layoutY="509.0" />
+      <Button fx:id="previousMedia" layoutX="658.0" layoutY="503.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="⏪" />
+      <Button fx:id="nextMedia" layoutX="870.0" layoutY="503.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="⏩" />
+      <Button fx:id="resetButton" layoutX="938.0" layoutY="503.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="25.0" prefWidth="52.0" text="🔄" />
    </children>
 </AnchorPane>

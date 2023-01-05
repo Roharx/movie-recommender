@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
@@ -17,6 +18,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MovieController implements Initializable {
+    @FXML
+    private Button resetButton;
+    @FXML
+    private Button previousMedia;
+    @FXML
+    private Button nextMedia;
     @FXML
     private Slider volumeSlider;
     @FXML
@@ -87,6 +94,11 @@ public class MovieController implements Initializable {
                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);}
         });
     }
+    public void resetMedia(ActionEvent actionEvent){
+        if(mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
+            mediaPlayer.seek(Duration.seconds(0.0));
+        }
+    }
 
+    }
 
-}
