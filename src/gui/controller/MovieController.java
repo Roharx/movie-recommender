@@ -48,7 +48,6 @@ public class MovieController implements Initializable {
     private boolean running;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         file = new File("mp4/CL - ‘HELLO BITCHES’  MV.mp4");
@@ -67,6 +66,16 @@ public class MovieController implements Initializable {
     public void pauseMedia(ActionEvent actionEvent) {
         mediaPlayer.pause();
     }
+
+    public void fastForward(ActionEvent event){
+        mediaPlayer.seek(mediaPlayer.getCurrentTime()
+                .add(Duration.seconds(10)));
+    }
+    public void fastRewind(ActionEvent event){
+        mediaPlayer.seek(mediaPlayer.getCurrentTime()
+                .add(Duration.seconds(-10)));
+    }
+
     public void beginTimer() {
         timer = new Timer();
         task = new TimerTask() {
@@ -75,30 +84,33 @@ public class MovieController implements Initializable {
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 double end = media.getDuration().toSeconds();
 
-                progressBar.setProgress(current/end);
-                if(current/end == 1){
+                progressBar.setProgress(current / end);
+                if (current / end == 1) {
                     cancelTimer();
                 }
             }
         };
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
-    public void cancelTimer(){
+
+    public void cancelTimer() {
         running = false;
         timer.cancel();
     }
+
     public void changeVolume() {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);}
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
         });
     }
-    public void resetMedia(ActionEvent actionEvent){
-        if(mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
+
+    public void resetMedia(ActionEvent actionEvent) {
+        if (mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
             mediaPlayer.seek(Duration.seconds(0.0));
         }
     }
-
-    }
+}
 
