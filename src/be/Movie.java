@@ -84,10 +84,9 @@ public class Movie {
         //TODO generate ID based on DB
     }
 
-
-
-
-
-
+    @Override
+    public String toString() {
+        return id + " " + title + " " + imdbrating + " " + userrating + " " + filelink + " " + lastview;
+    }
 }
 
