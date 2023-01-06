@@ -1,4 +1,6 @@
 package dal;
 
-public class CategoryDAO {
+import dal.interfaces.ICategoryDAO;
+
+public class CategoryDAO implements ICategoryDAO {
 }
