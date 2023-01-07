@@ -2,9 +2,13 @@ package dal.interfaces;
 
 import be.Movie;
 
+import java.sql.SQLException;
 import java.util.List;
 
+
 public interface IMovieDAO {
-    //TODO Balint
-    List<Movie> getAllMovies() throws Exception;
+    List<Movie> getAllMovies() throws SQLException;
+    Movie getMovieByID(int id) throws SQLException;
+    List<Movie> getMoviesByIMDB(float rating) throws SQLException;
+    List<Movie> getMoviesByUserRating(int rating) throws SQLException;
 }

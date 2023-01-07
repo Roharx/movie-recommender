@@ -1,5 +1,6 @@
 package be;
 
+import dal.MovieDAO;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Movie {
@@ -9,6 +10,7 @@ public class Movie {
     private String userrating;
     private String filelink;
     private String lastview;
+    private MovieDAO movieDAO;
 
 
     //region getters and setters
