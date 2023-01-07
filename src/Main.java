@@ -24,6 +24,7 @@ public class Main extends Application {
 
         MovieDAO movieDAO = new MovieDAO();
         List<Movie> movieList = movieDAO.getAllMovies();
+        System.out.println(movieList.get(0));
 
     }
 }

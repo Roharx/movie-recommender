@@ -1,8 +1,5 @@
 package be;
 
-import dal.MovieDAO;
-import javafx.beans.property.SimpleStringProperty;
-
 public class Movie {
     private int id;
     private String title;
@@ -10,7 +7,6 @@ public class Movie {
     private String userrating;
     private String filelink;
     private String lastview;
-    private MovieDAO movieDAO;
 
 
     //region getters and setters
@@ -62,7 +58,6 @@ public class Movie {
 
 
     public Movie(float imdbrating,String title,String userrating,String filelink,String lastview){
-        generateID();
         this.imdbrating = imdbrating;
         this.title = title;
         this.userrating = userrating;
@@ -74,16 +69,7 @@ public class Movie {
 
     public Movie(int id,float imdbrating,String title,String userrating,String filelink,String datatime){
         this(imdbrating,title,userrating,filelink,datatime);
-        checkID(id);
-    }
-
-    private void checkID(int id) {
-        //TODO check the id, if good: this.id = id;
         this.id = id;
-    }
-
-    private void generateID() {
-        //TODO generate ID based on DB
     }
 
     @Override
