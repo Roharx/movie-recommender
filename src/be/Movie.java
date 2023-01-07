@@ -4,7 +4,7 @@ public class Movie {
     private int id;
     private String title;
     private float imdbrating;
-    private String userrating;
+    private int userrating;
     private String filelink;
     private String lastview;
 
@@ -28,11 +28,11 @@ public class Movie {
     public float getImdbrating(){return imdbrating;}
     public void setImdbrating(float imdbrating){this.imdbrating = imdbrating;}
 
-    public String getUserrating() {
+    public int getUserrating() {
         return userrating;
     }
 
-    public void setUserrating(String userrating) {
+    public void setUserrating(int userrating) {
         this.userrating = userrating;
     }
 
@@ -57,7 +57,7 @@ public class Movie {
 
 
 
-    public Movie(float imdbrating,String title,String userrating,String filelink,String lastview){
+    public Movie(float imdbrating,String title,int userrating,String filelink,String lastview){
         this.imdbrating = imdbrating;
         this.title = title;
         this.userrating = userrating;
@@ -67,7 +67,7 @@ public class Movie {
 
 
 
-    public Movie(int id,float imdbrating,String title,String userrating,String filelink,String datatime){
+    public Movie(int id,float imdbrating,String title,int userrating,String filelink,String datatime){
         this(imdbrating,title,userrating,filelink,datatime);
         this.id = id;
     }

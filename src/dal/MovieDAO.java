@@ -41,7 +41,7 @@ public class MovieDAO implements IMovieDAO {
                     resultSet.getInt("id"),
                     resultSet.getFloat("imdbrating"),
                     resultSet.getString("title"),
-                    resultSet.getString("userrating"),
+                    resultSet.getInt("userrating"),
                     resultSet.getString("filelink"),
                     resultSet.getString("lastview")
             ));
@@ -65,7 +65,7 @@ public class MovieDAO implements IMovieDAO {
                     resultSet.getInt("id"),
                     resultSet.getFloat("imdbrating"),
                     resultSet.getString("title"),
-                    resultSet.getString("userrating"),
+                    resultSet.getInt("userrating"),
                     resultSet.getString("filelink"),
                     resultSet.getString("lastview")
             );
@@ -99,6 +99,31 @@ public class MovieDAO implements IMovieDAO {
         movies = fillMovies(resultSet);
 
         return movies;
+    }
+
+    @Override
+    public void createMovie(Movie movie) throws SQLException {
+        String sql = "INSERT INTO Movie (id, title, imdbrating, userrating, filelink, lastview) VALUES (?,?,?,?,?,?)";
+
+        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+
+        preparedStatement.setInt(1, movie.getId());
+        preparedStatement.setString(2, movie.getTitle());
+        preparedStatement.setFloat(3, movie.getImdbrating());
+        preparedStatement.setInt(4, movie.getUserrating());
+        preparedStatement.setString(5, movie.getFilelink());
+        preparedStatement.setString(6, movie.getLastview());
+
+        preparedStatement.executeQuery();
+    }
+
+    @Override
+    public void deleteMovie(int id) throws SQLException {
+        String sql = "DELETE * FROM Movie WHERE id = ?";
+
+        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeQuery();
     }
 
 
