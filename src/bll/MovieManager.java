@@ -39,12 +39,12 @@ public class MovieManager implements IMovieManager{
 
     @Override
     public void createMovie(Movie movie) throws SQLException {
-
+        movieDAO.createMovie(movie);
     }
 
     @Override
     public void deleteMovie(int id) throws SQLException {
-
+        movieDAO.deleteMovie(id);
     }
 
     @Override
