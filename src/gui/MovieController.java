@@ -1,4 +1,4 @@
-package gui.controller;
+package gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -1,6 +1,7 @@
 package dal.database;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,13 +18,17 @@ public class DatabaseConnector {
 
     public DatabaseConnector(){
         Properties properties = getConnectionDetails();
-        this.dataSource = new SQLServerDataSource();
-        this.dataSource.setDatabaseName(properties.getProperty("name"));
-        this.dataSource.setUser(properties.getProperty("username"));
-        this.dataSource.setPassword(properties.getProperty("password"));
-        this.dataSource.setServerName(properties.getProperty("server"));
-        this.dataSource.setPortNumber(Integer.parseInt(properties.getProperty("port")));
-        this.dataSource.setTrustServerCertificate(true);
+        dataSource = new SQLServerDataSource();
+        dataSource.setDatabaseName(properties.getProperty("name"));
+        dataSource.setUser(properties.getProperty("username"));
+        dataSource.setPassword(properties.getProperty("password"));
+        dataSource.setServerName(properties.getProperty("server"));
+        dataSource.setPortNumber(Integer.parseInt(properties.getProperty("port")));
+        dataSource.setTrustServerCertificate(true);
+    }
+
+    public Connection createConnection() throws SQLServerException {
+        return dataSource.getConnection();
     }
 
     private static Properties getConnectionDetails(){
