@@ -4,6 +4,7 @@ import be.Movie;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
+import javafx.fxml.FXML;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -125,6 +126,5 @@ public class MovieDAO implements IMovieDAO {
         preparedStatement.setInt(1, id);
         preparedStatement.executeQuery();
     }
-
 
 }
