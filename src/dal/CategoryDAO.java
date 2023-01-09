@@ -58,6 +58,7 @@ public class CategoryDAO implements ICategoryDAO {
         preparedStatement.setString(2,category.getCategoryname());
 
         preparedStatement.executeQuery();
+
     }
 
 

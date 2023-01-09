@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.media.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MovieController">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MovieController">
    <children>
       <Button layoutX="888.0" layoutY="509.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
       <ListView fx:id="genresView" prefHeight="600.0" prefWidth="247.0" />

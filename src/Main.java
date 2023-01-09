@@ -1,4 +1,6 @@
+import be.Category;
 import be.Movie;
+import dal.CategoryDAO;
 import dal.MovieDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,12 @@ public class Main extends Application {
         MovieDAO movieDAO = new MovieDAO();
         List<Movie> movieList = movieDAO.getAllMovies();
         System.out.println(movieList.get(0));
+
+       /* CategoryDAO categoryDAO = new CategoryDAO();
+        List<Category> categoryList = categoryDAO.getAllCategories();
+        categoryDAO.createCategory(new Category(3,"Action"));
+        categoryDAO.deleteCategory(4);
+        System.out.println(categoryList);*/
 
     }
 }
