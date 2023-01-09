@@ -55,7 +55,7 @@ public class MovieDAO implements IMovieDAO {
     public Movie getMovieByID(int id) throws SQLException {
         Movie result = null;
 
-        String sql = "SELECT * FROM Movie WHERE id = ?";
+        String sql = "SELECT movieid FROM Movie WHERE id = ?";
 
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
         preparedStatement.setInt(1, id);
