@@ -3,6 +3,7 @@ package gui.controllers;
 
 
 
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +20,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
+
 
 
 
@@ -80,6 +82,7 @@ public class MovieController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
         final int IV_SIZE = 18;
 
 
@@ -87,6 +90,18 @@ public class MovieController implements Initializable {
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
+
+
+    }
+
+    public void playMedia(ActionEvent actionEvent) {
+        beginTimer();
+        mediaPlayer.play();
+        changeVolume();
+    }
+
+    public void pauseMedia(ActionEvent actionEvent) {
+        mediaPlayer.pause();
 
         sliderTime.setMax(mediaPlayer.getTotalDuration().toSeconds());
 
@@ -212,6 +227,7 @@ public class MovieController implements Initializable {
             }
         }
 
+
     }
 
     public void fastForward(ActionEvent event){
@@ -222,7 +238,6 @@ public class MovieController implements Initializable {
         mediaPlayer.seek(mediaPlayer.getCurrentTime()
                 .add(Duration.seconds(-10)));
     }
-
 
     public void beginTimer() {
         timer = new Timer();
