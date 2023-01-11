@@ -18,7 +18,7 @@ public class CatMovieDAO implements ICatMovieDAO {
     public List<Integer> getMovieIDsByCategoryForID(int catID) throws SQLException {
         List<Integer> result = new ArrayList<>();
 
-        String sql = "SELECT movieid FROM CatMovie WHERE id = ?";
+        String sql = "SELECT movieid FROM CatMovie WHERE categoryid = ?";
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
         preparedStatement.setInt(1,catID);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -32,7 +32,7 @@ public class CatMovieDAO implements ICatMovieDAO {
     public List<Integer> getCategoriesForMovieID(int movieID) throws SQLException {
         List<Integer> result = new ArrayList<>();
 
-        String sql = "SELECT catagoryid FROM CatMovie WHERE id = ?";
+        String sql = "SELECT catagoryid FROM CatMovie WHERE movieid = ?";
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
         preparedStatement.setInt(1,movieID);
         ResultSet resultSet = preparedStatement.executeQuery();
