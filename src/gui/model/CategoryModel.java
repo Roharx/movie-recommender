@@ -1,4 +1,4 @@
-package gui.models;
+package gui.model;
 
 import be.Category;
 import bll.CategoryManager;
