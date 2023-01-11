@@ -6,15 +6,13 @@ import dal.MovieDAO;
 import dal.interfaces.IMovieDAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieManager implements IMovieManager{
 
     IMovieDAO movieDAO;
-
-    public MovieManager(){
-        movieDAO = new MovieDAO();
-    }
+    public MovieManager(){movieDAO = new MovieDAO();}
 
 
     @Override
@@ -51,4 +49,18 @@ public class MovieManager implements IMovieManager{
     public int getMaxID() throws SQLException {
         return 0;
     }
+
+    @Override
+    public List<Movie> searchMovies(String query) throws SQLException {
+        List<Movie> movies = movieDAO.getAllMovies();
+        List<Movie> filtered = new ArrayList<>();
+
+        for(Movie m : movies) {
+            if((""+ m.getTitle().toLowerCase()).contains(query.toLowerCase())){
+                filtered.add(m);
+            }
+        }
+        return filtered;
+    }
+
 }
