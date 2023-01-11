@@ -81,30 +81,18 @@ public class MovieController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-        final int IV_SIZE = 18;
-
-
         file = new File("mp4/CL - ‘HELLO BITCHES’  MV.mp4");
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
-
+        playPauseMedia();
 
     }
 
-    public void playMedia(ActionEvent actionEvent) {
-        beginTimer();
-        mediaPlayer.play();
-        changeVolume();
-    }
 
-    public void pauseMedia(ActionEvent actionEvent) {
-        mediaPlayer.pause();
 
-        sliderTime.setMax(mediaPlayer.getTotalDuration().toSeconds());
-
+    public void playPauseMedia() {
+        final int IV_SIZE = 18;
 
         Image imagePlay = new Image(new File("mp4/play.png").toURI().toString());
         ivPlay = new ImageView(imagePlay);
