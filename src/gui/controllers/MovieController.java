@@ -104,7 +104,7 @@ public class MovieController implements Initializable {
         ivPause.setFitHeight(IV_SIZE);
         ivPause.setFitWidth(IV_SIZE);
 
-        buttonPps.setGraphic(ivPause);
+        buttonPps.setGraphic(ivPlay);
 
         buttonPps.setOnAction(new EventHandler<ActionEvent>() {
             @Override
