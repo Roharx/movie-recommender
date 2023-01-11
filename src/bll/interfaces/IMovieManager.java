@@ -13,4 +13,5 @@ public interface IMovieManager {
     void createMovie(Movie movie) throws SQLException;
     void deleteMovie(int id) throws SQLException;
     int getMaxID() throws SQLException;
+    List<Movie> searchMovies(String query) throws SQLException;
 }
