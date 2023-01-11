@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.media.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.media.MediaView?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MovieController">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MovieController">
    <children>
-      <Button layoutX="888.0" layoutY="509.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
-      <ListView fx:id="genresView" prefHeight="600.0" prefWidth="247.0" />
-      <ListView fx:id="moviesView" layoutX="247.0" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" />
-      <MediaView fx:id="mediaView" fitHeight="363.0" fitWidth="500.0" layoutX="646.0" layoutY="108.0" />
-      <ProgressBar fx:id="progressBar" layoutX="646.0" layoutY="485.0" prefWidth="500.0" progress="0.0" />
-      <Button fx:id="playMedia" layoutX="782.0" layoutY="509.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="26.0" prefWidth="44.0" text="▶" />
-      <Button fx:id="pauseMedia" layoutX="836.0" layoutY="509.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="18.0" prefWidth="44.0" text="⏸" />
-      <TextField fx:id="txtSearch" layoutX="247.0" prefHeight="37.0" prefWidth="240.0" />
-      <Slider fx:id="volumeSlider" layoutX="1047.0" layoutY="509.0" prefHeight="26.0" prefWidth="102.0" />
-      <Button fx:id="previousMedia" layoutX="678.0" layoutY="509.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="44.0" text="⏮" />
-      <Button fx:id="nextMedia" layoutX="941.0" layoutY="509.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" text="⏭" />
-      <Button fx:id="resetButton" layoutX="992.0" layoutY="509.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
-      <Button layoutX="728.0" layoutY="509.0" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
+      <Button layoutX="842.0" layoutY="559.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
+      <MediaView fx:id="mediaView" fitHeight="520.0" fitWidth="715.0" layoutX="487.0" />
+      <ProgressBar fx:id="progressBar" layoutX="600.0" layoutY="535.0" prefWidth="500.0" progress="0.0" />
+      <Button fx:id="playMedia" layoutX="736.0" layoutY="559.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="26.0" prefWidth="44.0" text="▶" />
+      <Button fx:id="pauseMedia" layoutX="790.0" layoutY="559.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="18.0" prefWidth="44.0" text="⏸" />
+      <TextField fx:id="txfSearchBar" layoutX="144.0" prefHeight="38.0" prefWidth="340.0" />
+      <Slider fx:id="volumeSlider" layoutX="1001.0" layoutY="559.0" prefHeight="26.0" prefWidth="102.0" />
+      <Button fx:id="previousMedia" layoutX="632.0" layoutY="559.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="44.0" text="⏮" />
+      <Button fx:id="nextMedia" layoutX="895.0" layoutY="559.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" text="⏭" />
+      <Button fx:id="resetButton" layoutX="946.0" layoutY="559.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
+      <Button layoutX="682.0" layoutY="559.0" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
+      <TableView fx:id="tbvCategories" prefHeight="600.0" prefWidth="146.0">
+        <columns>
+          <TableColumn fx:id="tbcCategories" prefWidth="145.5999939084053" text="Categories" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tbvMovies" layoutX="146.0" layoutY="38.0" prefHeight="563.0" prefWidth="339.0">
+        <columns>
+          <TableColumn fx:id="tbcIMDB" prefWidth="42.399993896484375" text="IMDB" />
+          <TableColumn fx:id="tbcUserRating" prefWidth="33.5999755859375" text="User" />
+            <TableColumn fx:id="tbcTitle" prefWidth="263.2000274658203" text="Title" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
