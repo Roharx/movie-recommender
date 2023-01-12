@@ -33,6 +33,7 @@ public class CategoryModel {
         categoryManager.deleteCategory(category.getId());
         categories.remove(categories.indexOf(category));
     }
+
 }
 
 

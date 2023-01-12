@@ -34,5 +34,8 @@ public class MovieModel {
         movies.add(movie);
     }
 
-
+    public void search(String query) throws SQLException {
+        movies.clear();
+        movies.addAll(movieManager.searchMovies(query));
+    }
 }

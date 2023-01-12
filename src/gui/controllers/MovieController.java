@@ -5,47 +5,62 @@ package gui.controllers;
 
 
 import be.Category;
+import be.Movie;
+import com.sun.tools.javac.Main;
 import gui.model.CategoryModel;
 import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class MovieController implements Initializable {
     @FXML
     public TableView tbvCategories,
-    tbvMovies;
+            tbvMovies;
     @FXML
     public TableColumn tbcCategories,
-    tbcIMDB,
-    tbcUserRating,
-    tbcTitle;
+            tbcIMDB,
+            tbcUserRating,
+            tbcTitle;
+    public Button btnSelectFile;
+    @FXML
+    private Button btnAddCategory,
+            btnDeleteCategory,
+            btnAddMovie,
+            btnDeleteMovie,
+            btnEditMovie;
+    public MovieController movieController;
+
     @FXML
     private Slider sliderTime;
     @FXML
@@ -58,7 +73,7 @@ public class MovieController implements Initializable {
     private ImageView ivPause;
     private boolean isPlaying;
     private boolean isEndOfVideo = false;
-    
+
     @FXML
 
     private Button resetButton;
@@ -104,8 +119,19 @@ public class MovieController implements Initializable {
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
         playPauseMedia();
-
+        txtSearch.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    movieModel.search(newValue);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
+
+
 
 
 
@@ -129,13 +155,13 @@ public class MovieController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 bindCurrentTimeLabel();
                 Button buttonPlay = (Button) actionEvent.getSource();
-                if(isPlaying){
+                if (isPlaying) {
                     buttonPlay.setGraphic(ivPlay);
                     mediaPlayer.pause();
                     isPlaying = false;
 
 
-                }else {
+                } else {
                     buttonPlay.setGraphic(ivPause);
                     mediaPlayer.play();
                     isPlaying = true;
@@ -161,9 +187,9 @@ public class MovieController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean wasChanging, Boolean isChanging) {
                 bindCurrentTimeLabel();
-                if( !isChanging) {
-                   mediaPlayer.seek(Duration.seconds(sliderTime.getValue()));
-               }
+                if (!isChanging) {
+                    mediaPlayer.seek(Duration.seconds(sliderTime.getValue()));
+                }
             }
         });
 
@@ -189,19 +215,18 @@ public class MovieController implements Initializable {
     }
 
 
-
     public void bindCurrentTimeLabel() {
-       labelCurrentTime.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
-           @Override
-           public String call() throws Exception {
-               return getTime(mediaPlayer.getCurrentTime()) ;
-           }
-       }, mediaPlayer.currentTimeProperty()));
+        labelCurrentTime.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return getTime(mediaPlayer.getCurrentTime());
+            }
+        }, mediaPlayer.currentTimeProperty()));
 
     }
 
 
-    private String getTime(Duration time){
+    private String getTime(Duration time) {
         int hours = (int) time.toHours();
         int minutes = (int) time.toMinutes();
         int seconds = (int) time.toSeconds();
@@ -210,7 +235,7 @@ public class MovieController implements Initializable {
         if (minutes > 59) minutes = minutes % 60;
         if (hours > 59) hours = hours % 60;
 
-        if(hours > 0) return String.format("%d:%02d:%02d" ,
+        if (hours > 0) return String.format("%d:%02d:%02d",
                 hours,
                 minutes,
                 seconds);
@@ -220,7 +245,7 @@ public class MovieController implements Initializable {
 
     }
 
-    public void labelMatchEndVideo(String labelTime,String labelTotalTime) {
+    public void labelMatchEndVideo(String labelTime, String labelTotalTime) {
         for (int i = 0; i < labelTotalTime.length(); i++) {
             if (labelTime.charAt(i) != labelTotalTime.charAt(i)) {
                 isEndOfVideo = false;
@@ -236,11 +261,12 @@ public class MovieController implements Initializable {
 
     }
 
-    public void fastForward(ActionEvent event){
+    public void fastForward(ActionEvent event) {
         mediaPlayer.seek(mediaPlayer.getCurrentTime()
                 .add(Duration.seconds(10)));
     }
-    public void fastRewind(ActionEvent event){
+
+    public void fastRewind(ActionEvent event) {
         mediaPlayer.seek(mediaPlayer.getCurrentTime()
                 .add(Duration.seconds(-10)));
     }
@@ -283,16 +309,17 @@ public class MovieController implements Initializable {
         }
     }
 
-    private void showAllTables(){
+    private void showAllTables() {
         showCategoryTable();
 
         //TODO on category double click: display all movies of that category
         //TODO on movie double click: play selected movie
 
 
-        showMovieTable(new Category(1,"All"));
+        showMovieTable(new Category(1, "All"));
     }
-    private void showCategoryTable(){
+
+    private void showCategoryTable() {
 
         tbvCategories.setFocusTraversable(false);
 
@@ -306,7 +333,8 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    private void showMovieTable(Category category){
+
+    private void showMovieTable(Category category) {
         tbvMovies.setFocusTraversable(false);
 
         tbcIMDB.setResizable(false);
@@ -325,5 +353,36 @@ public class MovieController implements Initializable {
         }
     }
 
+
+   /* private void addCategory(ActionEvent actionEvent) throws IOException {
+        System.out.println("c-jc");
+
+        Parent root = FXMLLoader.load(getClass().getResource("view/Category.fxml"));
+
+        Stage stage = new Stage();
+        stage.setTitle(" Movie Application");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }*/
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

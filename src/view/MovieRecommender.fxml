@@ -33,17 +33,23 @@
          </font>
       </Label>
       <Slider fx:id="sliderTime" layoutX="529.0" layoutY="471.0" prefHeight="14.0" prefWidth="661.0" style="-fx-cursor: hand;" />
-      <TableView fx:id="tbvCategories" prefHeight="602.0" prefWidth="149.0">
+      <TableView fx:id="tbvCategories" prefHeight="564.0" prefWidth="149.0">
         <columns>
           <TableColumn fx:id="tbcCategories" prefWidth="148.7999939084053" text="Categories" />
         </columns>
       </TableView>
-      <TableView fx:id="tbvMovies" layoutX="150.0" layoutY="37.0" prefHeight="565.0" prefWidth="337.0">
+      <TableView fx:id="tbvMovies" layoutX="150.0" layoutY="37.0" prefHeight="527.0" prefWidth="337.0">
         <columns>
           <TableColumn fx:id="tbcIMDB" prefWidth="56.0" text="IMDB" />
           <TableColumn fx:id="tbcUserRating" prefWidth="51.999969482421875" text="User" />
             <TableColumn fx:id="tbcTitle" prefWidth="232.00001525878906" text="Title" />
         </columns>
       </TableView>
+      <Button fx:id="btnAddCategory" layoutX="8.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnDeleteCategory" layoutX="75.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnAddMovie" layoutX="170.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnEditMovie" layoutX="407.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Edit" />
+      <Button fx:id="btnDeleteMovie" layoutX="287.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnSelectFile" layoutX="752.0" layoutY="38.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="193.0" text="Select file" />
    </children>
 </AnchorPane>
