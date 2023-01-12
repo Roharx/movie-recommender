@@ -4,30 +4,34 @@ import be.Movie;
 import bll.MovieManager;
 import bll.interfaces.ICatMovieManager;
 import bll.interfaces.IMovieManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieModel {
-    IMovieManager movieManager = new MovieManager();
-    List<Movie> listMovies;
+    private IMovieManager movieManager;
+    private ObservableList<Movie> movies;
 
     public MovieModel(){
-
-        listMovies = new ArrayList<>();
+        movieManager = new MovieManager();
     }
 
-    public List<Movie> getAllMovies() throws SQLException {
-        return movieManager.getAllMovies();
+    public ObservableList<Movie> getAllMovies() throws SQLException {
+        List<Movie> temp = movieManager.getAllMovies();
+        return movies = FXCollections.observableArrayList(temp);
     }
 
     public void deleteMovie(Movie movie) throws SQLException {
         movieManager.deleteMovie(movie.getId());
+        movies.remove(movies.indexOf(movie));
     }
 
     public void creatMovie(Movie movie) throws SQLException{
         movieManager.createMovie(movie);
+        movies.add(movie);
     }
 
 

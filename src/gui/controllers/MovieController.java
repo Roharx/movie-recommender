@@ -4,6 +4,9 @@ package gui.controllers;
 
 
 
+import be.Category;
+import gui.model.CategoryModel;
+import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -26,6 +30,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -33,6 +38,14 @@ import java.util.TimerTask;
 import java.util.concurrent.Callable;
 
 public class MovieController implements Initializable {
+    @FXML
+    public TableView tbvCategories,
+    tbvMovies;
+    @FXML
+    public TableColumn tbcCategories,
+    tbcIMDB,
+    tbcUserRating,
+    tbcTitle;
     @FXML
     private Slider sliderTime;
     @FXML
@@ -77,11 +90,16 @@ public class MovieController implements Initializable {
     private Timer timer;
     private TimerTask task;
     private boolean running;
+    private MovieModel movieModel;
+    private CategoryModel categoryModel;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         file = new File("mp4/CL - ‘HELLO BITCHES’  MV.mp4");
+        movieModel = new MovieModel();
+        categoryModel = new CategoryModel();
+        showAllTables();
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
@@ -264,5 +282,48 @@ public class MovieController implements Initializable {
             mediaPlayer.seek(Duration.seconds(0.0));
         }
     }
+
+    private void showAllTables(){
+        showCategoryTable();
+
+        //TODO on category double click: display all movies of that category
+        //TODO on movie double click: play selected movie
+
+
+        showMovieTable(new Category(1,"All"));
+    }
+    private void showCategoryTable(){
+
+        tbvCategories.setFocusTraversable(false);
+
+        tbcCategories.setResizable(false);
+        tbcCategories.setResizable(false);
+        tbcCategories.setCellValueFactory(new PropertyValueFactory<Category, String>("categoryname"));
+
+        try {
+            tbvCategories.setItems(categoryModel.getAllCategories());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void showMovieTable(Category category){
+        tbvMovies.setFocusTraversable(false);
+
+        tbcIMDB.setResizable(false);
+        tbcUserRating.setResizable(false);
+        tbcTitle.setResizable(false);
+
+        tbcIMDB.setCellValueFactory(new PropertyValueFactory<Category, String>("imdbrating"));
+        tbcUserRating.setCellValueFactory(new PropertyValueFactory<Category, String>("userrating"));
+        tbcTitle.setCellValueFactory(new PropertyValueFactory<Category, String>("title"));
+
+
+        try {
+            tbvMovies.setItems(movieModel.getAllMovies());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 

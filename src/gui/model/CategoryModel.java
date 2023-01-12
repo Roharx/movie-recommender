@@ -4,35 +4,34 @@ import be.Category;
 import bll.CategoryManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryModel {
-    CategoryManager cbll = new CategoryManager();
-    private ObservableList<Category> categories = FXCollections.observableArrayList();
+    private CategoryManager categoryManager;
+    private ObservableList<Category> categories;
 
-
-    public ObservableList<Category> getCategories() {
-        return categories;
+    public CategoryModel(){
+        categoryManager = new CategoryManager();
+    }
+    public ObservableList<Category> getAllCategories() throws SQLException {
+        List<Category> temp = categoryManager.getAllCategories();
+        return categories = FXCollections.observableArrayList(temp);
     }
 
 
-    public void createCategory( Category category) throws SQLException {
-        cbll.createCategory(category);
-        categories.remove((category.getId()));
+    public void createCategory(Category category) throws SQLException {
+        categoryManager.createCategory(category);
+        categories.add((category));
     }
 
 
-    public void deleteCategory(int id) throws SQLException{
-        cbll.deleteCategory(id);
-
-
-    }
-
-
-    public void fetchAllCategories() throws SQLException {
-        categories.addAll(cbll.getAllCategories());
+    public void deleteCategory(Category category) throws SQLException {
+        categoryManager.deleteCategory(category.getId());
+        categories.remove(categories.indexOf(category));
     }
 }
 
