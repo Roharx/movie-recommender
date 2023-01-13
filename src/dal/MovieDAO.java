@@ -1,11 +1,10 @@
 package dal;
 
 import be.Movie;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
-import javafx.fxml.FXML;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -120,11 +119,14 @@ public class MovieDAO implements IMovieDAO {
 
     @Override
     public void deleteMovie(int id) throws SQLException {
-        String sql = "DELETE * FROM Movie WHERE id = ?";
+        String sql = "DELETE FROM Movie WHERE id= ?";
 
-        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        preparedStatement.executeQuery();
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1,id);
+
+        preparedStatement.executeUpdate();
+
     }
 
 }

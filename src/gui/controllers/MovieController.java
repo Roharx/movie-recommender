@@ -1,25 +1,21 @@
 package gui.controllers;
 
 
-
-
-
 import be.Category;
 import be.Movie;
-import com.sun.tools.javac.Main;
 import gui.model.CategoryModel;
 import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -27,13 +23,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 
 
 import java.io.File;
@@ -44,6 +40,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 public class MovieController implements Initializable {
+    //region FXML
     @FXML
     public TableView tbvCategories,
             tbvMovies;
@@ -52,7 +49,8 @@ public class MovieController implements Initializable {
             tbcIMDB,
             tbcUserRating,
             tbcTitle;
-    public Button btnSelectFile;
+    @FXML
+    public AnchorPane window;
     @FXML
     private Button btnAddCategory,
             btnDeleteCategory,
@@ -97,8 +95,10 @@ public class MovieController implements Initializable {
     @FXML
     private Button pauseMedia;
     @FXML
-
     private TextField txtSearch;
+    //endregion
+
+    //region Local Variables
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -107,7 +107,8 @@ public class MovieController implements Initializable {
     private boolean running;
     private MovieModel movieModel;
     private CategoryModel categoryModel;
-
+    private AnchorPane popupContent;
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,9 +131,6 @@ public class MovieController implements Initializable {
             }
         });
     }
-
-
-
 
 
     public void playPauseMedia() {
@@ -353,20 +351,52 @@ public class MovieController implements Initializable {
         }
     }
 
+    public void addCategoryPressed(ActionEvent actionEvent) {
+        //TODO make a new window (fxml) and controller
+        //TODO construct the new window like the AddMovieController
+    }
 
-   /* private void addCategory(ActionEvent actionEvent) throws IOException {
-        System.out.println("c-jc");
+    public void deleteCategoryPressed(ActionEvent actionEvent) {
+        Category selectedCategory = (Category) tbvCategories.getSelectionModel().getSelectedItem();
+        try {
+            categoryModel.deleteCategory(selectedCategory);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        Parent root = FXMLLoader.load(getClass().getResource("view/Category.fxml"));
+    public void addMoviePressed(ActionEvent actionEvent) {
+        try {
+            displayAddMoviePopup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        Stage stage = new Stage();
-        stage.setTitle(" Movie Application");
-        stage.setScene(new Scene(root));
-        stage.show();
-    }*/
+    }
+
+    public void editMoviePressed(ActionEvent actionEvent) {
+    }
+
+    public void deleteMoviePressed(ActionEvent actionEvent) {
+        Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
+        try {
+            movieModel.deleteMovie(selectedMovie);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
+    public void displayAddMoviePopup() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddMovie.fxml"));
 
+        Scene scene = new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Add Movie");
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+    }
 }
 
 
