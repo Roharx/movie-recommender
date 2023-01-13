@@ -13,5 +13,4 @@ public interface IMovieDAO {
     List<Movie> getMoviesByUserRating(int rating) throws SQLException;
     void createMovie(Movie movie) throws SQLException;
     void deleteMovie(int id) throws SQLException;
-
 }

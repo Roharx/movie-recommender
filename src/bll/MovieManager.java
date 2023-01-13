@@ -62,5 +62,4 @@ public class MovieManager implements IMovieManager{
         }
         return filtered;
     }
-
 }

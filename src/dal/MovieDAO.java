@@ -1,6 +1,7 @@
 package dal;
 
 import be.Movie;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
 
@@ -129,4 +130,26 @@ public class MovieDAO implements IMovieDAO {
 
     }
 
+   /* public void editMovie(Movie selectedMovie) throws SQLException {
+        PreparedStatement pstmt=null;
+
+        try(Connection connection = databaseConnector.createConnection()) {
+            String sql = "UPDATE Movie " +
+                    "SET Title=?, ImdbRating =? ,UserRating =?" +
+                    "WHERE id =?";
+
+            pstmt=connection.prepareStatement(sql);
+            pstmt.setString(1, selectedMovie.getTitle());
+            pstmt.setFloat(2, selectedMovie.getImdbrating());
+            pstmt.setInt(3, selectedMovie.getId());
+            pstmt.executeUpdate();
+
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 }
+
+

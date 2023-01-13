@@ -27,6 +27,7 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,53 +53,33 @@ public class MovieController implements Initializable {
     @FXML
     public AnchorPane window;
     @FXML
-    private Button btnAddCategory,
+    public Button btnAddCategory,
             btnDeleteCategory,
             btnAddMovie,
             btnDeleteMovie,
             btnEditMovie;
-    public MovieController movieController;
-
     @FXML
     private Slider sliderTime;
     @FXML
-    private Label labelCurrentTime;
+    private Label labelCurrentTime,
+            labelTotalTime;
     @FXML
-    private Label labelTotalTime;
-    @FXML
-    private Button buttonPps;
-    private ImageView ivPlay;
-    private ImageView ivPause;
-    private boolean isPlaying;
-    private boolean isEndOfVideo = false;
-
-    @FXML
-
-    private Button resetButton;
-    @FXML
-    private Button previousMedia;
-    @FXML
-    private Button nextMedia;
+    private Button buttonPps,
+            resetButton;
+    private ImageView ivPlay,
+            ivPause;
     @FXML
     private Slider volumeSlider;
     @FXML
-    private ListView moviesView;
-    @FXML
-    private ListView categoryView;
+    private ListView moviesView,
+            categoryView;
     @FXML
     private MediaView mediaView;
     @FXML
-
-    private ProgressBar progressBar;
-    @FXML
-    private Button playMedia;
-    @FXML
-    private Button pauseMedia;
-    @FXML
     private TextField txtSearch;
-    //endregion
 
-    //region Local Variables
+    private boolean isPlaying;
+    private boolean isEndOfVideo = false;
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -108,6 +89,10 @@ public class MovieController implements Initializable {
     private MovieModel movieModel;
     private CategoryModel categoryModel;
     private AnchorPane popupContent;
+    public MovieController movieController;
+
+    private String path;
+
     //endregion
 
     @Override
@@ -269,27 +254,8 @@ public class MovieController implements Initializable {
                 .add(Duration.seconds(-10)));
     }
 
-    public void beginTimer() {
-        timer = new Timer();
-        task = new TimerTask() {
-            public void run() {
-                running = true;
-                double current = mediaPlayer.getCurrentTime().toSeconds();
-                double end = media.getDuration().toSeconds();
 
-                progressBar.setProgress(current / end);
-                if (current / end == 1) {
-                    cancelTimer();
-                }
-            }
-        };
-        timer.scheduleAtFixedRate(task, 0, 1000);
-    }
 
-    public void cancelTimer() {
-        running = false;
-        timer.cancel();
-    }
 
 
     public void changeVolume() {
@@ -352,8 +318,12 @@ public class MovieController implements Initializable {
     }
 
     public void addCategoryPressed(ActionEvent actionEvent) {
-        //TODO make a new window (fxml) and controller
-        //TODO construct the new window like the AddMovieController
+        try{
+            displayAddCategoryPopup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void deleteCategoryPressed(ActionEvent actionEvent) {
@@ -371,10 +341,16 @@ public class MovieController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+
+
     public void editMoviePressed(ActionEvent actionEvent) {
+        try{
+            displayEditMoviePopup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteMoviePressed(ActionEvent actionEvent) {
@@ -397,7 +373,34 @@ public class MovieController implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
     }
-}
+
+    public void displayAddCategoryPopup() throws IOException{
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Add Category");
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+    }
+
+    public void displayEditMoviePopup() throws IOException{
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovie.fxml"));
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Edit Movie");
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+    }
+
+
+
+
+    }
+
 
 
 

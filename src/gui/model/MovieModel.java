@@ -29,7 +29,7 @@ public class MovieModel {
         movies.remove(movies.indexOf(movie));
     }
 
-    public void creatMovie(Movie movie) throws SQLException{
+    public void createMovie(Movie movie) throws SQLException{
         movieManager.createMovie(movie);
         movies.add(movie);
     }
