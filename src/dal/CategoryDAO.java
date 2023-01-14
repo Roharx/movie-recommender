@@ -14,10 +14,13 @@ public class CategoryDAO implements ICategoryDAO {
 
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector;
-    public CategoryDAO() { databaseConnector = new DatabaseConnector();}
+
+    public CategoryDAO() {
+        databaseConnector = new DatabaseConnector();
+    }
 
     @Override
-     public List<Category> getAllCategories() throws SQLException{
+    public List<Category> getAllCategories() throws SQLException {
         List<Category> categories = new ArrayList<>();
 
         String sql = "SELECT * FROM Category";
@@ -36,11 +39,12 @@ public class CategoryDAO implements ICategoryDAO {
     public Category getCategoryByID(int id) throws SQLException {
         Category result = null;
 
-        String sql = "SELECT * FROM Category WHERE id = ?";
+        String sql = "SELECT categoryid FROM Category WHERE id = ?";
 
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next())
+        if (resultSet.next())
             result = new Category(
                     resultSet.getInt("id"),
                     resultSet.getString("categoryname")
@@ -49,15 +53,15 @@ public class CategoryDAO implements ICategoryDAO {
     }
 
     @Override
-     public void createCategory( Category category) throws SQLException {
+    public void createCategory(Category category) throws SQLException {
         String sql = "INSERT INTO Category( id, categoryname ) VALUES ( ?,?)";
 
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
 
         preparedStatement.setInt(1, category.getId());
-        preparedStatement.setString(2,category.getCategoryname());
+        preparedStatement.setString(2, category.getCategoryname());
 
-        preparedStatement.executeQuery();
+        preparedStatement.execute();
 
     }
 
@@ -69,9 +73,24 @@ public class CategoryDAO implements ICategoryDAO {
 
         PreparedStatement psrmt = conn.prepareStatement(sql);
 
-        psrmt.setInt(1,id);
+        psrmt.setInt(1, id);
         psrmt.executeUpdate();
     }
-}
+
+    @Override
+    public int getMaxID() throws SQLException {
+        String sql = "SELECT MAX(id) AS id FROM Category";
+
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery();
+        int id = 0;
+        if (rs.next())
+            id = rs.getInt("id");
+
+        return id;
+    }}
+
+
 
 

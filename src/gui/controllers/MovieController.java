@@ -23,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -90,9 +91,12 @@ public class MovieController implements Initializable {
     private MovieModel movieModel;
     private CategoryModel categoryModel;
     private AnchorPane popupContent;
-    public MovieController movieController;
+    private MovieController movieController;
+    private AddCategoryController addCategoryController;
 
     private String path;
+    String currentMovie;
+
 
     //endregion
 
@@ -260,7 +264,7 @@ public class MovieController implements Initializable {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.02);
             }
         });
     }
@@ -274,12 +278,15 @@ public class MovieController implements Initializable {
     public void showAllTables() {
         showCategoryTable();
 
+
         //TODO on category double click: display all movies of that category
         //TODO on movie double click: play selected movie
 
+        showMovieTable(new Category(0, "All"));
 
-        showMovieTable(new Category(1, "All"));
     }
+
+
 
     private void showCategoryTable() {
 
@@ -377,12 +384,15 @@ public class MovieController implements Initializable {
     public void displayAddCategoryPopup() throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
 
+
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Category");
         primaryStage.setScene(scene);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
+
+
     }
 
     public void displayEditMoviePopup() throws IOException {

@@ -63,7 +63,6 @@ public class AddMovieController {
             txfMovieTitle.setText(file.getName());
 
         }
-        ;
     }
 
 

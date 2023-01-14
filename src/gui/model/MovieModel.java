@@ -16,6 +16,7 @@ public class MovieModel {
     private ObservableList<Movie> movies;
 
     public MovieModel(){
+
         movieManager = new MovieManager();
     }
 

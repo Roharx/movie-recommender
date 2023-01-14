@@ -34,6 +34,10 @@ public class CategoryManager implements ICategoryManager {
     public void deleteCategory(int id) throws SQLException{
         categoryDAO.deleteCategory(id);
     }
+    @Override
+    public int getMaxID() throws SQLException {
+        return categoryDAO.getMaxID();
+    }
 
 
 

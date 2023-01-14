@@ -11,5 +11,5 @@ public interface ICategoryDAO {
     Category getCategoryByID(int id) throws SQLException;
     void createCategory(Category category) throws SQLException;
     void deleteCategory(int id) throws SQLException;
-
+    int getMaxID() throws SQLException;
 }
