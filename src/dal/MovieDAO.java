@@ -1,14 +1,10 @@
 package dal;
 
 import be.Movie;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +111,7 @@ public class MovieDAO implements IMovieDAO {
         preparedStatement.setString(5, movie.getFilelink());
         preparedStatement.setString(6, movie.getLastview());
 
-        preparedStatement.executeQuery();
+        preparedStatement.execute();
     }
 
     @Override
@@ -130,26 +126,19 @@ public class MovieDAO implements IMovieDAO {
 
     }
 
-   /* public void editMovie(Movie selectedMovie) throws SQLException {
-        PreparedStatement pstmt=null;
+    @Override
+    public int getMaxID() throws SQLException {
+        String sql = "SELECT MAX(id) AS id FROM Movie";
 
-        try(Connection connection = databaseConnector.createConnection()) {
-            String sql = "UPDATE Movie " +
-                    "SET Title=?, ImdbRating =? ,UserRating =?" +
-                    "WHERE id =?";
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery();
+        int id = 0;
+        if(rs.next())
+            id = rs.getInt("id");
 
-            pstmt=connection.prepareStatement(sql);
-            pstmt.setString(1, selectedMovie.getTitle());
-            pstmt.setFloat(2, selectedMovie.getImdbrating());
-            pstmt.setInt(3, selectedMovie.getId());
-            pstmt.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
+        return id;
+    }
 }
 
 

@@ -47,7 +47,7 @@ public class MovieManager implements IMovieManager{
 
     @Override
     public int getMaxID() throws SQLException {
-        return 0;
+        return movieDAO.getMaxID();
     }
 
     @Override
