@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -255,9 +256,6 @@ public class MovieController implements Initializable {
     }
 
 
-
-
-
     public void changeVolume() {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -273,7 +271,7 @@ public class MovieController implements Initializable {
         }
     }
 
-    private void showAllTables() {
+    public void showAllTables() {
         showCategoryTable();
 
         //TODO on category double click: display all movies of that category
@@ -318,7 +316,7 @@ public class MovieController implements Initializable {
     }
 
     public void addCategoryPressed(ActionEvent actionEvent) {
-        try{
+        try {
             displayAddCategoryPopup();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -344,9 +342,8 @@ public class MovieController implements Initializable {
     }
 
 
-
     public void editMoviePressed(ActionEvent actionEvent) {
-        try{
+        try {
             displayEditMoviePopup();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -364,6 +361,7 @@ public class MovieController implements Initializable {
 
 
     public void displayAddMoviePopup() throws IOException {
+
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddMovie.fxml"));
 
         Scene scene = new Scene(root);
@@ -372,9 +370,11 @@ public class MovieController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
+
+        showAllTables();
     }
 
-    public void displayAddCategoryPopup() throws IOException{
+    public void displayAddCategoryPopup() throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
 
         Scene scene = new Scene(root);
@@ -385,7 +385,8 @@ public class MovieController implements Initializable {
         primaryStage.show();
     }
 
-    public void displayEditMoviePopup() throws IOException{
+    public void displayEditMoviePopup() throws IOException {
+        //TODO upload the EditMovie.fxml to github (always upload everything or it'll not work)
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovie.fxml"));
 
         Scene scene = new Scene(root);
@@ -396,10 +397,7 @@ public class MovieController implements Initializable {
         primaryStage.show();
     }
 
-
-
-
-    }
+}
 
 
 

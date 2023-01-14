@@ -31,11 +31,13 @@ public class MovieModel {
 
     public void createMovie(Movie movie) throws SQLException{
         movieManager.createMovie(movie);
-        movies.add(movie);
     }
 
     public void search(String query) throws SQLException {
         movies.clear();
         movies.addAll(movieManager.searchMovies(query));
+    }
+    public int getMaxID() throws SQLException {
+        return movieManager.getMaxID();
     }
 }

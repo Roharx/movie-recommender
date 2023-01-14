@@ -14,6 +14,7 @@ public class Movie {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -21,12 +22,18 @@ public class Movie {
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public float getImdbrating(){return imdbrating;}
-    public void setImdbrating(float imdbrating){this.imdbrating = imdbrating;}
+    public float getImdbrating() {
+        return imdbrating;
+    }
+
+    public void setImdbrating(float imdbrating) {
+        this.imdbrating = imdbrating;
+    }
 
     public int getUserrating() {
         return userrating;
@@ -56,19 +63,13 @@ public class Movie {
     //endregion
 
 
+    public Movie(int id, float imdbrating, String title, int userrating, String filelink, String datatime) {
 
-    public Movie(float imdbrating,String title,int userrating,String filelink,String lastview){
         this.imdbrating = imdbrating;
         this.title = title;
         this.userrating = userrating;
         this.filelink = filelink;
         this.lastview = lastview;
-    }
-
-
-
-    public Movie(int id,float imdbrating,String title,int userrating,String filelink,String datatime){
-        this(imdbrating,title,userrating,filelink,datatime);
         this.id = id;
     }
 
