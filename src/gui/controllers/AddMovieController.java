@@ -50,7 +50,6 @@ public class AddMovieController {
     }
 
     public void chooseFilePressed(ActionEvent actionEvent) {
-        //TODO fix the mpeg4
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("mp4, mpeg4", "*.mp4", "*.mpeg4"));
         file = fileChooser.showOpenDialog(null);

@@ -123,7 +123,6 @@ public class MovieDAO implements IMovieDAO {
         preparedStatement.setInt(1,id);
 
         preparedStatement.executeUpdate();
-
     }
 
     @Override

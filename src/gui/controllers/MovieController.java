@@ -93,6 +93,7 @@ public class MovieController implements Initializable {
     private AnchorPane popupContent;
     private MovieController movieController;
     private AddCategoryController addCategoryController;
+    private boolean listsUpdated = false;
 
     private String path;
     String currentMovie;
@@ -301,6 +302,8 @@ public class MovieController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        tbvCategories.getSelectionModel().select(0);
     }
 
     private void showMovieTable(Category category) {
@@ -314,16 +317,18 @@ public class MovieController implements Initializable {
         tbcUserRating.setCellValueFactory(new PropertyValueFactory<Category, String>("userrating"));
         tbcTitle.setCellValueFactory(new PropertyValueFactory<Category, String>("title"));
 
-
         try {
             tbvMovies.setItems(movieModel.getAllMovies());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        tbvMovies.getSelectionModel().select(0);
     }
 
     public void addCategoryPressed(ActionEvent actionEvent) {
         try {
+            listsUpdated = true;
             displayAddCategoryPopup();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -332,6 +337,7 @@ public class MovieController implements Initializable {
     }
 
     public void deleteCategoryPressed(ActionEvent actionEvent) {
+        listsUpdated = true;
         Category selectedCategory = (Category) tbvCategories.getSelectionModel().getSelectedItem();
         try {
             categoryModel.deleteCategory(selectedCategory);
@@ -341,6 +347,7 @@ public class MovieController implements Initializable {
     }
 
     public void addMoviePressed(ActionEvent actionEvent) {
+        listsUpdated = true;
         try {
             displayAddMoviePopup();
         } catch (IOException e) {
@@ -350,6 +357,7 @@ public class MovieController implements Initializable {
 
 
     public void editMoviePressed(ActionEvent actionEvent) {
+        listsUpdated = true;
         try {
             displayEditMoviePopup();
         } catch (IOException e) {
@@ -396,7 +404,6 @@ public class MovieController implements Initializable {
     }
 
     public void displayEditMoviePopup() throws IOException {
-        //TODO upload the EditMovie.fxml to github (always upload everything or it'll not work)
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovie.fxml"));
 
         Scene scene = new Scene(root);
@@ -407,6 +414,12 @@ public class MovieController implements Initializable {
         primaryStage.show();
     }
 
+    public void updateTables(MouseEvent mouseEvent) {
+        if(listsUpdated){
+            showAllTables();
+            listsUpdated = !listsUpdated;
+        }
+    }
 }
 
 

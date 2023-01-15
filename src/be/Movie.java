@@ -63,14 +63,15 @@ public class Movie {
     //endregion
 
 
-    public Movie(int id, float imdbrating, String title, int userrating, String filelink, String datatime) {
+    public Movie(int id, float imdbRating, String title, int userRating, String fileLink, String lastView) {
 
-        this.imdbrating = imdbrating;
-        this.title = title;
-        this.userrating = userrating;
-        this.filelink = filelink;
-        this.lastview = lastview;
         this.id = id;
+        this.imdbrating = imdbRating;
+        this.title = title;
+        this.userrating = userRating;
+        this.filelink = fileLink;
+        this.lastview = lastView;
+
     }
 
     @Override
