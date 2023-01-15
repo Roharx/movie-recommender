@@ -278,12 +278,12 @@ public class MovieController implements Initializable {
 
     public void showAllTables() {
         showCategoryTable();
-
+        showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
 
         //TODO on category double click: display all movies of that category
         //TODO on movie double click: play selected movie
 
-        showMovieTable(new Category(0, "All"));
+
 
     }
 
