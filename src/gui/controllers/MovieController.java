@@ -449,7 +449,7 @@ public class MovieController implements Initializable {
     }
 
     public void displayEditMoviePopup() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovie.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovieCategories.fxml"));
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
