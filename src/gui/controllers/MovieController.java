@@ -308,20 +308,12 @@ public class MovieController implements Initializable {
         }
 
         //region Display Movies for selected category (double click)
-        tbvCategories.setRowFactory(new Callback<TableView<Category>, TableRow<Category>>() {
+        tbvCategories.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
-            public TableRow<Category> call(TableView<Category> param) {
-
-                TableRow<Category> row = new TableRow<>();
-                row.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                            showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
-                        }
-                    }
-                });
-                return row;
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
+                }
             }
         });
         //endregion
@@ -352,20 +344,13 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
         //region Play Movie from double click
-        tbvCategories.setRowFactory(new Callback<TableView<Movie>, TableRow<Movie>>() {
+        tbvMovies.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
-            public TableRow<Movie> call(TableView<Movie> param) {
-
-                TableRow<Movie> row = new TableRow<>();
-                row.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                            //TODO play movie
-                        }
-                    }
-                });
-                return row;
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    //TODO play movie
+                    System.out.println(tbvMovies.getSelectionModel().getSelectedItem());
+                }
             }
         });
         //endregion
@@ -436,7 +421,7 @@ public class MovieController implements Initializable {
         showAllTables();
     }
 
-    public void displayAddCategoryPopup() throws IOException{
+    public void displayAddCategoryPopup() throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
 
         Scene scene = new Scene(root);
