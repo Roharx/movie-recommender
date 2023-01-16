@@ -31,6 +31,7 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 
@@ -161,6 +162,7 @@ public class MovieController implements Initializable {
 
             }
         });
+
         mediaPlayer.totalDurationProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldDuration, Duration newDuration) {
@@ -279,14 +281,7 @@ public class MovieController implements Initializable {
     public void showAllTables() {
         showCategoryTable();
         showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
-
-        //TODO on category double click: display all movies of that category
-        //TODO on movie double click: play selected movie
-
-
-
     }
-
 
 
     private void showCategoryTable() {
@@ -303,6 +298,25 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
 
+        //region Display Movies for selected category (double click)
+        tbvCategories.setRowFactory(new Callback<TableView<Category>, TableRow<Category>>() {
+            @Override
+            public TableRow<Category> call(TableView<Category> param) {
+
+                TableRow<Category> row = new TableRow<>();
+                row.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                            showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
+                        }
+                    }
+                });
+                return row;
+            }
+        });
+        //endregion
+
         tbvCategories.getSelectionModel().select(0);
     }
 
@@ -318,10 +332,34 @@ public class MovieController implements Initializable {
         tbcTitle.setCellValueFactory(new PropertyValueFactory<Category, String>("title"));
 
         try {
-            tbvMovies.setItems(movieModel.getAllMovies());
+            if (category.getCategoryname().equalsIgnoreCase("all"))
+                tbvMovies.setItems(movieModel.getAllMovies());
+            else {
+                //TODO show movies for the selected category (need to make changes in the backend)
+                tbvMovies.setItems(movieModel.getAllMovies());
+                System.out.println(category.getCategoryname());
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        //region Play Movie from double click
+        tbvCategories.setRowFactory(new Callback<TableView<Movie>, TableRow<Movie>>() {
+            @Override
+            public TableRow<Movie> call(TableView<Movie> param) {
+
+                TableRow<Movie> row = new TableRow<>();
+                row.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                            //TODO play movie
+                        }
+                    }
+                });
+                return row;
+            }
+        });
+        //endregion
 
         tbvMovies.getSelectionModel().select(0);
     }
@@ -415,7 +453,7 @@ public class MovieController implements Initializable {
     }
 
     public void updateTables(MouseEvent mouseEvent) {
-        if(listsUpdated){
+        if (listsUpdated) {
             showAllTables();
             listsUpdated = !listsUpdated;
         }
