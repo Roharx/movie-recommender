@@ -19,4 +19,8 @@ public class CatMovieManager implements ICatMovieManager{
     public List<Integer> getCategoriesForMovieID(int movieID) throws SQLException {
         return catMovieDAO.getCategoriesForMovieID(movieID);
     }
+    @Override
+    public void addCategoryToMovie(int id, int movieID, int categoryID) throws SQLException {
+        catMovieDAO.addCategoryToMovie(id ,movieID ,categoryID);
+    }
 }

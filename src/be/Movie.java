@@ -78,5 +78,6 @@ public class Movie {
     public String toString() {
         return id + " " + title + " " + imdbrating + " " + userrating + " " + filelink + " " + lastview;
     }
+
 }
 

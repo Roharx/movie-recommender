@@ -1,6 +1,7 @@
 package gui.model;
 
 import be.Movie;
+import bll.CatMovieManager;
 import bll.MovieManager;
 import bll.interfaces.ICatMovieManager;
 import bll.interfaces.IMovieManager;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MovieModel {
     private IMovieManager movieManager;
     private ObservableList<Movie> movies;
+    private CatMovieManager catMovieManager;
 
     public MovieModel(){
 
@@ -41,4 +43,8 @@ public class MovieModel {
     public int getMaxID() throws SQLException {
         return movieManager.getMaxID();
     }
+    public void addCategoryToMovie(int id, int movieID, int categoryID)  throws SQLException {
+        catMovieManager.addCategoryToMovie(id, movieID, categoryID);
+    }
+
 }

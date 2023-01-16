@@ -44,7 +44,10 @@ public class CategoryModel {
     public int getMaxID() throws SQLException {
         return categoryManager.getMaxID();
     }
+
+
 }
+
 
 
 

@@ -8,6 +8,7 @@ import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -33,14 +35,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.controlsfx.control.Rating;
 
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Timer;
 import java.util.concurrent.Callable;
 
 public class MovieController implements Initializable {
@@ -61,6 +66,10 @@ public class MovieController implements Initializable {
             btnAddMovie,
             btnDeleteMovie,
             btnEditMovie;
+    @FXML
+    private Rating rating;
+    @FXML
+    private Label labRating;
     @FXML
     private Slider sliderTime;
     @FXML
@@ -104,7 +113,7 @@ public class MovieController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        file = new File("mp4/CL - ‘HELLO BITCHES’  MV.mp4");
+        file = new File("mp4/videoplayback.mp4");
         movieModel = new MovieModel();
         categoryModel = new CategoryModel();
         showAllTables();
@@ -427,9 +436,8 @@ public class MovieController implements Initializable {
         showAllTables();
     }
 
-    public void displayAddCategoryPopup() throws IOException {
+    public void displayAddCategoryPopup() throws IOException{
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
-
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -437,7 +445,6 @@ public class MovieController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
-
 
     }
 

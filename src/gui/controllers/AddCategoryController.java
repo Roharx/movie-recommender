@@ -37,7 +37,6 @@ public class AddCategoryController {
                     categoryModel.getMaxID() +1,
                     txfCategoryName.getText()));
             closeWindow();
-            categoryModel.getAllCategories();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
