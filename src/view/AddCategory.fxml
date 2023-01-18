@@ -6,15 +6,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.AddCategoryController">
-   <children>
-      <Label layoutX="14.0" layoutY="58.0" prefHeight="25.0" prefWidth="121.0" text="Category Name :">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txfCategoryName" layoutX="153.0" layoutY="58.0" prefHeight="25.0" prefWidth="155.0" />
-      <Button fx:id="btnOk" layoutX="23.0" layoutY="113.0" mnemonicParsing="false" onAction="#okPressed" prefHeight="25.0" prefWidth="41.0" text="OK" />
-      <Button fx:id="btnCancel" layoutX="256.0" layoutY="113.0" mnemonicParsing="false" onAction="#cancelPressed" text="Cancel" />
-   </children>
+<AnchorPane prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.AddCategoryController">
+    <children>
+        <Label layoutX="14.0" layoutY="58.0" prefHeight="25.0" prefWidth="121.0" text="Category Name :">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txfCategoryName" layoutX="153.0" layoutY="58.0" prefHeight="25.0" prefWidth="155.0" />
+        <Button fx:id="btnOk" layoutX="23.0" layoutY="113.0" mnemonicParsing="false" onAction="#okPressed" prefHeight="25.0" prefWidth="41.0" text="OK" />
+        <Button fx:id="btnCancel" layoutX="256.0" layoutY="113.0" mnemonicParsing="false" onAction="#cancelPressed" text="Cancel" />
+    </children>
+
 </AnchorPane>

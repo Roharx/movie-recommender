@@ -48,12 +48,27 @@ public class CatMovieDAO implements ICatMovieDAO {
     public void addCategoryToMovie(int id, int movieID, int categoryID) throws SQLException {
         Connection connection = databaseConnector.createConnection();
         String insert = "'" + movieID + "'" + "," + "'" + categoryID + "'";
+
         String sql = "INSERT INTO CatMovie (id, movieID, categoryID) VALUES (?,?,?)";
 
         Statement statement = connection.createStatement();
         statement.execute(sql);
-
     }
 
+    @Override
+    public int getMaxIDForCatMovie() throws SQLException  {
+        String sql = "SELECT MAX(id) AS id FROM Category";
 
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery();
+        int id = 0;
+        if (rs.next())
+            id = rs.getInt("id");
+
+        return id;
+    }
 }
+
+
+

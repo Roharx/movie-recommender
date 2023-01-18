@@ -1,6 +1,7 @@
 package dal;
 
 import be.Movie;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
 
@@ -139,16 +140,19 @@ public class MovieDAO implements IMovieDAO {
         return id;
     }
 
-    @Override
-    public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
-        String sql = "UPDATE Movie SET userrating = ? WHERE movieid = ?";
 
-        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
-        preparedStatement.setInt(1, movieID);
-        preparedStatement.setInt(2, userRating);
 
-        preparedStatement.execute();
-    }
+
+     @Override
+     public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
+         String sql = "UPDATE Movie SET userrating = ? WHERE id = ?";
+
+         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+         preparedStatement.setInt(1, movieID);
+         preparedStatement.setInt(2, userRating);
+
+         preparedStatement.executeUpdate();
+     }
 }
 
 

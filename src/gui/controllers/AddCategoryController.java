@@ -26,10 +26,8 @@ public class AddCategoryController {
     private CategoryModel categoryModel;
     private String titleOfMovie;
 
-    public AddCategoryController(String titleOfMovie) {
+    public AddCategoryController() {
         categoryModel= new CategoryModel();
-        this.titleOfMovie = titleOfMovie;
-
     }
 
 

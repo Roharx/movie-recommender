@@ -3,6 +3,7 @@ package gui.controllers;
 
 import be.Category;
 import be.Movie;
+import com.sun.jdi.Value;
 import gui.model.CategoryModel;
 import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
@@ -12,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -67,24 +69,20 @@ public class MovieController implements Initializable {
             btnDeleteMovie,
             btnEditMovie;
     @FXML
-    private Rating rating;
-    @FXML
-    private Label labRating;
+    private RadioButton btn1, btn2,btn3,btn4, btn5;
+
     @FXML
     private Slider sliderTime;
     @FXML
     private Label labelCurrentTime,
             labelTotalTime;
     @FXML
-    private Button buttonPps,
-            resetButton;
-    private ImageView ivPlay,
-            ivPause;
+    private Button buttonPps, resetButton;
+    private ImageView ivPlay, ivPause;
     @FXML
     private Slider volumeSlider;
     @FXML
-    private ListView moviesView,
-            categoryView;
+    private ListView moviesView, categoryView;
     @FXML
     private MediaView mediaView;
     @FXML
@@ -103,6 +101,7 @@ public class MovieController implements Initializable {
     private AnchorPane popupContent;
     private MovieController movieController;
     private AddCategoryController addCategoryController;
+    private  Parent root;
     private boolean listsUpdated = false;
 
     private EditCategoryController editCategoryController;
@@ -112,6 +111,7 @@ public class MovieController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        showButtonPlayPause();
         movieModel = new MovieModel();
         categoryModel = new CategoryModel();
         showAllTables();
@@ -127,22 +127,26 @@ public class MovieController implements Initializable {
         });
     }
 
-
-    public void playPauseMedia() {
+    public void showButtonPlayPause(){
         final int IV_SIZE = 18;
 
-        Image imagePlay = new Image(new File("mp4/play.png").toURI().toString());
+        Image imagePlay = new Image(new File("src/view/icons/play.png").toURI().toString());
         ivPlay = new ImageView(imagePlay);
         ivPlay.setFitHeight(IV_SIZE);
         ivPlay.setFitWidth(IV_SIZE);
 
-        Image imagePause = new Image(new File("mp4/pause.png").toURI().toString());
+        Image imagePause = new Image(new File("src/view/icons/pause.png").toURI().toString());
         ivPause = new ImageView(imagePause);
         ivPause.setFitHeight(IV_SIZE);
         ivPause.setFitWidth(IV_SIZE);
 
         buttonPps.setGraphic(ivPlay);
 
+    }
+
+
+    public void playPauseMedia() {
+        showButtonPlayPause();
         buttonPps.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -369,9 +373,9 @@ public class MovieController implements Initializable {
     }
 
 
-    public void addCategoryPressed(ActionEvent actionEvent) {
+    public void addCategoryPressed(ActionEvent actionEvent) throws IOException {
+        listsUpdated = true;
         try {
-            listsUpdated = true;
             displayAddCategoryPopup();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -403,7 +407,8 @@ public class MovieController implements Initializable {
         listsUpdated = true;
         try {
             displayEditMoviePopup();
-        } catch (IOException e) {
+
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -433,7 +438,11 @@ public class MovieController implements Initializable {
     }
 
     public void displayAddCategoryPopup() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
+       // Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
+        root = loader.load();
+
+        AddCategoryController addCategoryController = loader.getController();
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -442,10 +451,20 @@ public class MovieController implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
 
+        showAllTables();
     }
 
-    public void displayEditMoviePopup() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/EditMovieCategories.fxml"));
+
+
+    public void displayEditMoviePopup() throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditMovieCategories.fxml"));
+        root = loader.load();
+
+        EditCategoryController  editCategoryController = loader.getController();
+
+        Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
+        editCategoryController.displayMovieTitle(selectedMovie.getTitle());
+        editCategoryController.fillChoiceBox();
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -460,6 +479,24 @@ public class MovieController implements Initializable {
             showAllTables();
             listsUpdated = !listsUpdated;
         }
+    }
+
+    public void getRating(ActionEvent actionEvent) throws SQLException {
+
+        // TODO
+
+        Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
+        if(btn1.isSelected()){
+            movieModel.setUserRatingForMovie(selectedMovie.getId(), selectedMovie.getUserrating());
+            selectedMovie.setUserrating(1);
+            listsUpdated = true;
+        }
+        if(btn2.isSelected()){
+            movieModel.setUserRatingForMovie(selectedMovie.getId(), selectedMovie.getUserrating());
+            selectedMovie.setUserrating(2);
+            listsUpdated = true;
+        }
+
     }
 }
 

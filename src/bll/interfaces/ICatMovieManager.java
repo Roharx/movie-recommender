@@ -8,4 +8,5 @@ public interface ICatMovieManager {
 
     List<Integer> getCategoriesForMovieID(int movieID) throws SQLException;
     void addCategoryToMovie(int id, int movieID, int categoryID) throws SQLException;
+    int getMaxIDForCatMovie() throws SQLException;
 }

@@ -18,7 +18,7 @@ public class MovieModel {
     private ObservableList<Movie> movies;
     private ICatMovieManager catMovieManager;
 
-    public MovieModel(){
+    public MovieModel() {
         movieManager = new MovieManager();
         catMovieManager = new CatMovieManager();
     }
@@ -33,7 +33,7 @@ public class MovieModel {
         movies.remove(movies.indexOf(movie));
     }
 
-    public void createMovie(Movie movie) throws SQLException{
+    public void createMovie(Movie movie) throws SQLException {
         movieManager.createMovie(movie);
     }
 
@@ -41,14 +41,16 @@ public class MovieModel {
         movies.clear();
         movies.addAll(movieManager.searchMovies(query));
     }
+
     public int getMaxID() throws SQLException {
         return movieManager.getMaxID();
     }
-    public void addCategoryToMovie(int id, int movieID, int categoryID)  throws SQLException {
+
+    public void addCategoryToMovie(int id, int movieID, int categoryID) throws SQLException {
         catMovieManager.addCategoryToMovie(id, movieID, categoryID);
     }
 
-    public ObservableList<Movie> getAllMoviesForCategory(Category category){
+    public ObservableList<Movie> getAllMoviesForCategory(Category category) {
         List<Integer> movieIDs = null;
         List<Movie> moviesForCategory = new ArrayList<>();
         try {
@@ -65,8 +67,11 @@ public class MovieModel {
         return movies = FXCollections.observableArrayList(moviesForCategory);
     }
 
-    public void setUserRatingForMovie(int movieID, int userRating){
+   public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
         movieManager.setUserRatingForMovie(movieID, userRating);
     }
+    public int getMaxIDForCatMovie() throws SQLException {
+        return catMovieManager.getMaxIDForCatMovie();
 
+    }
 }

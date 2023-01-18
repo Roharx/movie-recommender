@@ -39,8 +39,10 @@ public class Movie {
         return userrating;
     }
 
-    public void setUserrating(int userrating) {
+    public void  setUserrating(int userrating) {
         this.userrating = userrating;
+
+
     }
 
     public String getFilelink() {
