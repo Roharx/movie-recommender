@@ -62,4 +62,12 @@ public class MovieManager implements IMovieManager{
         }
         return filtered;
     }
+
+    public void setUserRatingForMovie(int movieID, int userRating){
+        try {
+            movieDAO.setUserRatingForMovie(movieID, userRating);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

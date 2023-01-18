@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="170.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.AddMovieController">
+<AnchorPane prefHeight="170.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.EditCategoryController">
    <children>
       <Label fx:id="lblMovieTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="14.0" prefHeight="25.0" prefWidth="183.0" text="Movie Title ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnEditMovie" layoutX="136.0" layoutY="128.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="53.0" text="OK" />
+      
       <MenuButton layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Categories">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -23,5 +23,6 @@
       </MenuButton>
       <Button layoutX="177.0" layoutY="48.0" mnemonicParsing="false" text="Add" />
       <Button layoutX="270.0" layoutY="48.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="btnOk" layoutX="137.0" layoutY="130.0" mnemonicParsing="false" onAction="#okPressed" text="Ok" />
    </children>
 </AnchorPane>

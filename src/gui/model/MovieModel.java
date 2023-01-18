@@ -1,5 +1,6 @@
 package gui.model;
 
+import be.Category;
 import be.Movie;
 import bll.CatMovieManager;
 import bll.MovieManager;
@@ -15,11 +16,11 @@ import java.util.List;
 public class MovieModel {
     private IMovieManager movieManager;
     private ObservableList<Movie> movies;
-    private CatMovieManager catMovieManager;
+    private ICatMovieManager catMovieManager;
 
     public MovieModel(){
-
         movieManager = new MovieManager();
+        catMovieManager = new CatMovieManager();
     }
 
     public ObservableList<Movie> getAllMovies() throws SQLException {
@@ -45,6 +46,27 @@ public class MovieModel {
     }
     public void addCategoryToMovie(int id, int movieID, int categoryID)  throws SQLException {
         catMovieManager.addCategoryToMovie(id, movieID, categoryID);
+    }
+
+    public ObservableList<Movie> getAllMoviesForCategory(Category category){
+        List<Integer> movieIDs = null;
+        List<Movie> moviesForCategory = new ArrayList<>();
+        try {
+            movieIDs = catMovieManager.getMovieIDsByCategoryForID(category.getId());
+
+            for (int i : movieIDs) {
+                moviesForCategory.add(movieManager.getMovieByID(i));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return movies = FXCollections.observableArrayList(moviesForCategory);
+    }
+
+    public void setUserRatingForMovie(int movieID, int userRating){
+        movieManager.setUserRatingForMovie(movieID, userRating);
     }
 
 }

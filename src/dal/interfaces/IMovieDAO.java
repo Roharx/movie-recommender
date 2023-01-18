@@ -14,4 +14,5 @@ public interface IMovieDAO {
     void createMovie(Movie movie) throws SQLException;
     void deleteMovie(int id) throws SQLException;
     int getMaxID() throws SQLException;
+    void setUserRatingForMovie(int movieID, int userRating) throws SQLException;
 }

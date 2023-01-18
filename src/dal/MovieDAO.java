@@ -52,7 +52,7 @@ public class MovieDAO implements IMovieDAO {
     public Movie getMovieByID(int id) throws SQLException {
         Movie result = null;
 
-        String sql = "SELECT movieid FROM Movie WHERE id = ?";
+        String sql = "SELECT * FROM Movie WHERE id = ?";
 
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -137,6 +137,17 @@ public class MovieDAO implements IMovieDAO {
             id = rs.getInt("id");
 
         return id;
+    }
+
+    @Override
+    public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
+        String sql = "UPDATE Movie SET userrating = ? WHERE movieid = ?";
+
+        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, movieID);
+        preparedStatement.setInt(2, userRating);
+
+        preparedStatement.execute();
     }
 }
 

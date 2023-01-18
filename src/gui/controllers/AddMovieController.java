@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -39,6 +40,7 @@ public class AddMovieController {
             txfEditUserRating;
     public Button btnEditMovie,
             btnCancelEdit;
+    public Label lblMovieTitle;
     private File file;
     private String path;
     private MediaPlayer mediaPlayer;

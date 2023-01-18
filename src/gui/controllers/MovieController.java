@@ -105,22 +105,16 @@ public class MovieController implements Initializable {
     private AddCategoryController addCategoryController;
     private boolean listsUpdated = false;
 
-    private String path;
-    String currentMovie;
+    private EditCategoryController editCategoryController;
 
 
     //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        file = new File("mp4/videoplayback.mp4");
         movieModel = new MovieModel();
         categoryModel = new CategoryModel();
         showAllTables();
-        media = new Media(file.toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaView.setMediaPlayer(mediaPlayer);
-        playPauseMedia();
         txtSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -322,6 +316,7 @@ public class MovieController implements Initializable {
     }
 
     private void showMovieTable(Category category) {
+
         tbvMovies.setFocusTraversable(false);
 
         tbcIMDB.setResizable(false);
@@ -336,9 +331,7 @@ public class MovieController implements Initializable {
             if (category.getCategoryname().equalsIgnoreCase("all"))
                 tbvMovies.setItems(movieModel.getAllMovies());
             else {
-                //TODO show movies for the selected category (need to make changes in the backend)
-                tbvMovies.setItems(movieModel.getAllMovies());
-                System.out.println(category.getCategoryname());
+                tbvMovies.setItems(movieModel.getAllMoviesForCategory(category));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -347,16 +340,34 @@ public class MovieController implements Initializable {
         tbvMovies.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if(event.isPrimaryButtonDown() && event.getClickCount() == 1)
+                    editCategoryController = new EditCategoryController((Movie) tbvMovies.getSelectionModel().getSelectedItem());
+
                 if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                    //TODO play movie
-                    System.out.println(tbvMovies.getSelectionModel().getSelectedItem());
+                    if(mediaPlayer != null){
+                        mediaPlayer.stop();
+                        isPlaying = false;
+                    }
+
+
+                    Movie movie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
+                    file = new File(movie.getFilelink());
+                    var media = new Media(file.toURI().toString().replace("\\", "/"));
+                    mediaView.setMediaPlayer(new MediaPlayer(media));
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaView.setMediaPlayer(mediaPlayer);
+
+                    playPauseMedia();
                 }
+
             }
         });
         //endregion
 
         tbvMovies.getSelectionModel().select(0);
+        editCategoryController = new EditCategoryController((Movie) tbvMovies.getSelectionModel().getSelectedItem());
     }
+
 
     public void addCategoryPressed(ActionEvent actionEvent) {
         try {

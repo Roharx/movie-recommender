@@ -23,10 +23,13 @@ public class AddCategoryController {
             btnCancel;
     @FXML
     private TextField txfCategoryName;
-    CategoryModel categoryModel;
+    private CategoryModel categoryModel;
+    private String titleOfMovie;
 
-    public AddCategoryController() {
+    public AddCategoryController(String titleOfMovie) {
         categoryModel= new CategoryModel();
+        this.titleOfMovie = titleOfMovie;
+
     }
 
 
