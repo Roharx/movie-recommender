@@ -2,11 +2,9 @@ package dal.database;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.util.Properties;
 

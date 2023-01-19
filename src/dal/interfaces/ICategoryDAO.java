@@ -1,8 +1,6 @@
 package dal.interfaces;
 
 import be.Category;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import java.sql.SQLException;
 import java.util.List;
 

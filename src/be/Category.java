@@ -6,9 +6,6 @@ public class Category {
     private int id;
     private String categoryname;
 
-    private CategoryDAO categoryDAO;
-
-
     //region getters and setters
     public int getId(){return id;}
     public void setId(int id){

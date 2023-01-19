@@ -1,7 +1,6 @@
 package bll.interfaces;
 
 import be.Movie;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,4 +15,5 @@ public interface IMovieManager {
     List<Movie> searchMovies(String query) throws SQLException;
     void setUserRatingForMovie(int movieID, int userRating)throws SQLException;
 
+    Movie getMovieByTitle(String title) throws SQLException;
 }

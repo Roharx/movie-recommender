@@ -3,43 +3,30 @@ package gui.controllers;
 
 import be.Category;
 import be.Movie;
-import com.sun.jdi.Value;
 import gui.model.CategoryModel;
 import gui.model.MovieModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
-
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
-import org.controlsfx.control.Rating;
-
-
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +34,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Timer;
 import java.util.concurrent.Callable;
 
 public class MovieController implements Initializable {
@@ -69,7 +55,11 @@ public class MovieController implements Initializable {
             btnDeleteMovie,
             btnEditMovie;
     @FXML
-    private RadioButton btn1, btn2,btn3,btn4, btn5;
+    public Button btnRate1,
+            btnRate2,
+            btnRate3,
+            btnRate4,
+            btnRate5;
 
     @FXML
     private Slider sliderTime;
@@ -78,32 +68,27 @@ public class MovieController implements Initializable {
             labelTotalTime;
     @FXML
     private Button buttonPps, resetButton;
-    private ImageView ivPlay, ivPause;
     @FXML
     private Slider volumeSlider;
-    @FXML
-    private ListView moviesView, categoryView;
     @FXML
     private MediaView mediaView;
     @FXML
     private TextField txtSearch;
+    //endregion
 
+    //region Local Variables
+    private ImageView ivPlay, ivPause;
     private boolean isPlaying;
     private boolean isEndOfVideo = false;
     private File file;
-    private Media media;
     private MediaPlayer mediaPlayer;
-    private Timer timer;
-    private TimerTask task;
-    private boolean running;
     private MovieModel movieModel;
     private CategoryModel categoryModel;
-    private AnchorPane popupContent;
     private MovieController movieController;
     private AddCategoryController addCategoryController;
-    private  Parent root;
+    private Parent root;
     private boolean listsUpdated = false;
-
+    private Movie currentMovie;
     private EditCategoryController editCategoryController;
 
 
@@ -125,9 +110,11 @@ public class MovieController implements Initializable {
                 }
             }
         });
+        displayWarningPopup();
     }
 
-    public void showButtonPlayPause(){
+    //region Media player controls
+    public void showButtonPlayPause() {
         final int IV_SIZE = 18;
 
         Image imagePlay = new Image(new File("src/view/icons/play.png").toURI().toString());
@@ -143,8 +130,6 @@ public class MovieController implements Initializable {
         buttonPps.setGraphic(ivPlay);
 
     }
-
-
     public void playPauseMedia() {
         showButtonPlayPause();
         buttonPps.setOnAction(new EventHandler<ActionEvent>() {
@@ -211,8 +196,43 @@ public class MovieController implements Initializable {
             }
         });
     }
+    public void fastForward(ActionEvent event) {
+        mediaPlayer.seek(mediaPlayer.getCurrentTime()
+                .add(Duration.seconds(10)));
+    }
+    public void fastRewind(ActionEvent event) {
+        mediaPlayer.seek(mediaPlayer.getCurrentTime()
+                .add(Duration.seconds(-10)));
+    }
+    public void changeVolume() {
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.02);
+            }
+        });
+    }
+    public void resetMedia(ActionEvent actionEvent) {
+        if (mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
+            mediaPlayer.seek(Duration.seconds(0.0));
+        }
+    }
+    public void rateButtonClicked(ActionEvent actionEvent) {
+        Button b = (Button) actionEvent.getSource();
+        try {
+            if (currentMovie != null) {
+                movieModel.setUserRatingForMovie(currentMovie.getId(), Integer.parseInt(b.getText()));
+                showAllTables();
+            }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    //endregion
+
+    //region Media player display
     public void bindCurrentTimeLabel() {
         labelCurrentTime.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
             @Override
@@ -222,8 +242,6 @@ public class MovieController implements Initializable {
         }, mediaPlayer.currentTimeProperty()));
 
     }
-
-
     private String getTime(Duration time) {
         int hours = (int) time.toHours();
         int minutes = (int) time.toMinutes();
@@ -242,7 +260,6 @@ public class MovieController implements Initializable {
                 seconds);
 
     }
-
     public void labelMatchEndVideo(String labelTime, String labelTotalTime) {
         for (int i = 0; i < labelTotalTime.length(); i++) {
             if (labelTime.charAt(i) != labelTotalTime.charAt(i)) {
@@ -258,39 +275,10 @@ public class MovieController implements Initializable {
 
 
     }
-
-    public void fastForward(ActionEvent event) {
-        mediaPlayer.seek(mediaPlayer.getCurrentTime()
-                .add(Duration.seconds(10)));
-    }
-
-    public void fastRewind(ActionEvent event) {
-        mediaPlayer.seek(mediaPlayer.getCurrentTime()
-                .add(Duration.seconds(-10)));
-    }
-
-
-    public void changeVolume() {
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.02);
-            }
-        });
-    }
-
-    public void resetMedia(ActionEvent actionEvent) {
-        if (mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
-            mediaPlayer.seek(Duration.seconds(0.0));
-        }
-    }
-
     public void showAllTables() {
         showCategoryTable();
         showMovieTable((Category) tbvCategories.getSelectionModel().getSelectedItem());
     }
-
-
     private void showCategoryTable() {
 
         tbvCategories.setFocusTraversable(false);
@@ -318,7 +306,6 @@ public class MovieController implements Initializable {
 
         tbvCategories.getSelectionModel().select(0);
     }
-
     private void showMovieTable(Category category) {
 
         tbvMovies.setFocusTraversable(false);
@@ -344,18 +331,17 @@ public class MovieController implements Initializable {
         tbvMovies.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(event.isPrimaryButtonDown() && event.getClickCount() == 1)
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 1)
                     editCategoryController = new EditCategoryController((Movie) tbvMovies.getSelectionModel().getSelectedItem());
 
                 if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                    if(mediaPlayer != null){
+                    if (mediaPlayer != null) {
                         mediaPlayer.stop();
                         isPlaying = false;
                     }
 
-
-                    Movie movie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
-                    file = new File(movie.getFilelink());
+                    currentMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
+                    file = new File(currentMovie.getFilelink());
                     var media = new Media(file.toURI().toString().replace("\\", "/"));
                     mediaView.setMediaPlayer(new MediaPlayer(media));
                     mediaPlayer = new MediaPlayer(media);
@@ -370,9 +356,37 @@ public class MovieController implements Initializable {
 
         tbvMovies.getSelectionModel().select(0);
         editCategoryController = new EditCategoryController((Movie) tbvMovies.getSelectionModel().getSelectedItem());
+
+    }
+    public void displayWarningPopup() {
+
+        String message = "Please delete movies under rating 6, haven't been opened for 2 years:\n";
+        boolean showPopup = false;
+        try {
+            List<Movie> allMovies = movieModel.getAllMovies();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            int thisYear = Integer.parseInt(sdf.format(new Date()));
+
+            String lastOpened;
+            for (Movie m : allMovies) {
+                lastOpened = m.getLastview();
+                if (m.getImdbrating() < 6.0 && thisYear - Integer.parseInt(lastOpened.substring(6)) >= 2) {
+                    showPopup = true;
+                    message = message + "\n" + m.getTitle();
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (showPopup)
+            JOptionPane.showMessageDialog(null, message);
     }
 
+   //endregion
 
+    //region Edit Data
     public void addCategoryPressed(ActionEvent actionEvent) throws IOException {
         listsUpdated = true;
         try {
@@ -382,7 +396,6 @@ public class MovieController implements Initializable {
         }
 
     }
-
     public void deleteCategoryPressed(ActionEvent actionEvent) {
         listsUpdated = true;
         Category selectedCategory = (Category) tbvCategories.getSelectionModel().getSelectedItem();
@@ -392,7 +405,6 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
     public void addMoviePressed(ActionEvent actionEvent) {
         listsUpdated = true;
         try {
@@ -401,8 +413,6 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
-
     public void editMoviePressed(ActionEvent actionEvent) {
         listsUpdated = true;
         try {
@@ -412,17 +422,15 @@ public class MovieController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
     public void deleteMoviePressed(ActionEvent actionEvent) {
         Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
         try {
             movieModel.deleteMovie(selectedMovie);
+            showAllTables();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-
     public void displayAddMoviePopup() throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddMovie.fxml"));
@@ -436,10 +444,9 @@ public class MovieController implements Initializable {
 
         showAllTables();
     }
-
     public void displayAddCategoryPopup() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
-       // Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
+        // Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/AddCategory.fxml"));
         root = loader.load();
 
         AddCategoryController addCategoryController = loader.getController();
@@ -453,14 +460,11 @@ public class MovieController implements Initializable {
 
         showAllTables();
     }
-
-
-
     public void displayEditMoviePopup() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditMovieCategories.fxml"));
         root = loader.load();
 
-        EditCategoryController  editCategoryController = loader.getController();
+        EditCategoryController editCategoryController = loader.getController();
 
         Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
         editCategoryController.displayMovieTitle(selectedMovie.getTitle());
@@ -473,31 +477,16 @@ public class MovieController implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
     }
-
     public void updateTables(MouseEvent mouseEvent) {
         if (listsUpdated) {
             showAllTables();
             listsUpdated = !listsUpdated;
         }
     }
+    //endregion
 
-    public void getRating(ActionEvent actionEvent) throws SQLException {
 
-        // TODO
 
-        Movie selectedMovie = (Movie) tbvMovies.getSelectionModel().getSelectedItem();
-        if(btn1.isSelected()){
-            movieModel.setUserRatingForMovie(selectedMovie.getId(), selectedMovie.getUserrating());
-            selectedMovie.setUserrating(1);
-            listsUpdated = true;
-        }
-        if(btn2.isSelected()){
-            movieModel.setUserRatingForMovie(selectedMovie.getId(), selectedMovie.getUserrating());
-            selectedMovie.setUserrating(2);
-            listsUpdated = true;
-        }
-
-    }
 }
 
 

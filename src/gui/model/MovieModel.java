@@ -8,7 +8,6 @@ import bll.interfaces.ICatMovieManager;
 import bll.interfaces.IMovieManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class MovieModel {
 
     public void deleteMovie(Movie movie) throws SQLException {
         movieManager.deleteMovie(movie.getId());
-        movies.remove(movies.indexOf(movie));
+        movies.remove(movie);
     }
 
     public void createMovie(Movie movie) throws SQLException {
@@ -67,11 +66,20 @@ public class MovieModel {
         return movies = FXCollections.observableArrayList(moviesForCategory);
     }
 
-   public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
+    public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
         movieManager.setUserRatingForMovie(movieID, userRating);
     }
+
     public int getMaxIDForCatMovie() throws SQLException {
         return catMovieManager.getMaxIDForCatMovie();
 
+    }
+
+    public Movie getMovieByTitle(String title) throws SQLException {
+        return movieManager.getMovieByTitle(title);
+    }
+
+    public void removeCategoryFromMovie(int movieID, int categoryID) throws SQLException {
+        catMovieManager.removeCategoryFromMovie(movieID, categoryID);
     }
 }

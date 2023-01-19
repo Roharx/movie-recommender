@@ -1,14 +1,11 @@
 package dal;
 
 import be.Category;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.ICategoryDAO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class CategoryDAO implements ICategoryDAO {
 

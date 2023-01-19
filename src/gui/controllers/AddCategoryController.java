@@ -1,21 +1,15 @@
 package gui.controllers;
 
 import be.Category;
-import be.Movie;
 import gui.model.CategoryModel;
-import gui.model.MovieModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class AddCategoryController {
     @FXML

@@ -1,10 +1,8 @@
 package dal;
 
 import be.Movie;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,10 +146,31 @@ public class MovieDAO implements IMovieDAO {
          String sql = "UPDATE Movie SET userrating = ? WHERE id = ?";
 
          preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
-         preparedStatement.setInt(1, movieID);
-         preparedStatement.setInt(2, userRating);
+         preparedStatement.setInt(1, userRating);
+         preparedStatement.setInt(2, movieID);
 
          preparedStatement.executeUpdate();
+     }
+
+     public Movie getMovieByTitle(String title) throws SQLException {
+         Movie result = null;
+
+         String sql = "SELECT * FROM Movie WHERE title = ?";
+
+         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+         preparedStatement.setString(1, title);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         if (resultSet.next())
+             result = new Movie(
+                     resultSet.getInt("id"),
+                     resultSet.getFloat("imdbrating"),
+                     resultSet.getString("title"),
+                     resultSet.getInt("userrating"),
+                     resultSet.getString("filelink"),
+                     resultSet.getString("lastview")
+             );
+
+         return result;
      }
 }
 

@@ -4,7 +4,6 @@ import be.Category;
 import bll.interfaces.ICategoryManager;
 import dal.CategoryDAO;
 import dal.interfaces.ICategoryDAO;
-
 import java.sql.SQLException;
 import java.util.List;
 

@@ -1,17 +1,11 @@
 package gui.model;
 
 import be.Category;
-import be.Movie;
 import bll.CategoryManager;
-import bll.MovieManager;
 import bll.interfaces.ICategoryManager;
-import bll.interfaces.IMovieManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryModel {

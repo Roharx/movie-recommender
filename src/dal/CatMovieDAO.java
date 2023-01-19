@@ -2,7 +2,6 @@ package dal;
 
 import dal.database.DatabaseConnector;
 import dal.interfaces.ICatMovieDAO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,18 +45,31 @@ public class CatMovieDAO implements ICatMovieDAO {
 
     @Override
     public void addCategoryToMovie(int id, int movieID, int categoryID) throws SQLException {
-        Connection connection = databaseConnector.createConnection();
-        String insert = "'" + movieID + "'" + "," + "'" + categoryID + "'";
 
-        String sql = "INSERT INTO CatMovie (id, movieID, categoryID) VALUES (?,?,?)";
+        String sql = "INSERT INTO CatMovie (id, categoryid, movieid) VALUES (?,?,?)";
 
-        Statement statement = connection.createStatement();
-        statement.execute(sql);
+        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        preparedStatement.setInt(2, categoryID);
+        preparedStatement.setInt(3, movieID);
+
+        preparedStatement.execute();
+    }
+
+    @Override
+    public void removeCategoryFromMovie(int movieID, int categoryID) throws SQLException {
+        String sql = "DELETE FROM CatMovie WHERE movieid = ? AND categoryid = ?";
+
+        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, movieID);
+        preparedStatement.setInt(2, categoryID);
+
+        preparedStatement.execute();
     }
 
     @Override
     public int getMaxIDForCatMovie() throws SQLException  {
-        String sql = "SELECT MAX(id) AS id FROM Category";
+        String sql = "SELECT MAX(id) AS id FROM CatMovie";
 
         Connection conn = databaseConnector.createConnection();
         PreparedStatement preparedStatement = conn.prepareStatement(sql);

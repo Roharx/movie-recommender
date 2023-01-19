@@ -1,7 +1,6 @@
 package bll.interfaces;
 
 import be.Category;
-
 import java.sql.SQLException;
 import java.util.List;
 
