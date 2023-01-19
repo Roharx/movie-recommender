@@ -21,18 +21,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Main.class.getResource("view/MovieRecommender.fxml"));
         primaryStage.setTitle(" Movie Application");
-        primaryStage.setScene(new Scene(root,1200,600));
+        primaryStage.setScene(new Scene(root,1200,610));
+        primaryStage.setResizable(false);
         primaryStage.show();
-
-        MovieDAO movieDAO = new MovieDAO();
-        List<Movie> movieList = movieDAO.getAllMovies();
-        System.out.println(movieList.get(0));
-
-       /* CategoryDAO categoryDAO = new CategoryDAO();
-        List<Category> categoryList = categoryDAO.getAllCategories();
-        categoryDAO.createCategory(new Category(3,"Action"));
-        categoryDAO.deleteCategory(4);
-        System.out.println(categoryList);*/
 
     }
 }

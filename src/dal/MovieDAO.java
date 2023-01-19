@@ -1,14 +1,9 @@
 package dal;
 
 import be.Movie;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.database.DatabaseConnector;
 import dal.interfaces.IMovieDAO;
-import javafx.fxml.FXML;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +51,7 @@ public class MovieDAO implements IMovieDAO {
     public Movie getMovieByID(int id) throws SQLException {
         Movie result = null;
 
-        String sql = "SELECT movieid FROM Movie WHERE id = ?";
+        String sql = "SELECT * FROM Movie WHERE id = ?";
 
         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -115,16 +110,68 @@ public class MovieDAO implements IMovieDAO {
         preparedStatement.setString(5, movie.getFilelink());
         preparedStatement.setString(6, movie.getLastview());
 
-        preparedStatement.executeQuery();
+        preparedStatement.execute();
     }
 
     @Override
     public void deleteMovie(int id) throws SQLException {
-        String sql = "DELETE * FROM Movie WHERE id = ?";
+        String sql = "DELETE FROM Movie WHERE id= ?";
 
-        preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        preparedStatement.executeQuery();
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1,id);
+
+        preparedStatement.executeUpdate();
     }
 
+    @Override
+    public int getMaxID() throws SQLException {
+        String sql = "SELECT MAX(id) AS id FROM Movie";
+
+        Connection conn = databaseConnector.createConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery();
+        int id = 0;
+        if(rs.next())
+            id = rs.getInt("id");
+
+        return id;
+    }
+
+
+
+
+     @Override
+     public void setUserRatingForMovie(int movieID, int userRating) throws SQLException {
+         String sql = "UPDATE Movie SET userrating = ? WHERE id = ?";
+
+         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+         preparedStatement.setInt(1, userRating);
+         preparedStatement.setInt(2, movieID);
+
+         preparedStatement.executeUpdate();
+     }
+
+     public Movie getMovieByTitle(String title) throws SQLException {
+         Movie result = null;
+
+         String sql = "SELECT * FROM Movie WHERE title = ?";
+
+         preparedStatement = databaseConnector.createConnection().prepareStatement(sql);
+         preparedStatement.setString(1, title);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         if (resultSet.next())
+             result = new Movie(
+                     resultSet.getInt("id"),
+                     resultSet.getFloat("imdbrating"),
+                     resultSet.getString("title"),
+                     resultSet.getInt("userrating"),
+                     resultSet.getString("filelink"),
+                     resultSet.getString("lastview")
+             );
+
+         return result;
+     }
 }
+
+

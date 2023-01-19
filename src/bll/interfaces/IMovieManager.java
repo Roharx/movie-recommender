@@ -1,7 +1,6 @@
 package bll.interfaces;
 
 import be.Movie;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,4 +13,7 @@ public interface IMovieManager {
     void deleteMovie(int id) throws SQLException;
     int getMaxID() throws SQLException;
     List<Movie> searchMovies(String query) throws SQLException;
+    void setUserRatingForMovie(int movieID, int userRating)throws SQLException;
+
+    Movie getMovieByTitle(String title) throws SQLException;
 }

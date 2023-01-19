@@ -4,7 +4,6 @@ import be.Category;
 import bll.interfaces.ICategoryManager;
 import dal.CategoryDAO;
 import dal.interfaces.ICategoryDAO;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,6 +33,12 @@ public class CategoryManager implements ICategoryManager {
     public void deleteCategory(int id) throws SQLException{
         categoryDAO.deleteCategory(id);
     }
+    @Override
+    public int getMaxID() throws SQLException {
+        return categoryDAO.getMaxID();
+    }
+
+
 
 
 

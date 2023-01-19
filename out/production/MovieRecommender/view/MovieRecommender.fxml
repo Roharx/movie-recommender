@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.media.MediaView?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MovieController">
+<AnchorPane fx:id="window" prefHeight="617.0" prefWidth="1200.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MovieController">
 
    <children>
-      <Button layoutX="892.0" layoutY="535.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
-      <ListView fx:id="genresView" prefHeight="600.0" prefWidth="247.0" />
-      <ListView fx:id="moviesView" layoutX="247.0" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" />
+      <ButtonBar layoutX="578.0" layoutY="535.0">
+         <buttons>
+            <Button fx:id="resetButton" focusTraversable="false" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
+            <Button fx:id="buttonPps" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
+         </buttons>
+      </ButtonBar>
       <MediaView fx:id="mediaView" fitHeight="450.0" fitWidth="650.0" layoutX="535.0" layoutY="37.0" />
-      <TextField fx:id="txtSearch" layoutX="247.0" prefHeight="37.0" prefWidth="240.0" />
-      <Slider fx:id="volumeSlider" layoutX="1011.0" layoutY="535.0" prefHeight="26.0" prefWidth="173.0" />
-      <Button fx:id="previousMedia" layoutX="556.0" layoutY="535.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="44.0" text="⏮" />
-      <Button fx:id="nextMedia" layoutX="963.0" layoutY="535.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" text="⏭" />
-      <Button fx:id="resetButton" layoutX="816.0" layoutY="535.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
-      <Button layoutX="641.0" layoutY="535.0" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
-      <Button fx:id="buttonPps" layoutX="727.0" layoutY="535.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
+      <TextField fx:id="txtSearch" focusTraversable="false" layoutX="149.0" prefHeight="38.0" prefWidth="338.0" promptText="Search..." />
+      <Slider fx:id="volumeSlider" focusTraversable="false" layoutX="1032.0" layoutY="541.0" prefHeight="14.0" prefWidth="150.0" />
       <Label fx:id="labelCurrentTime" layoutX="535.0" layoutY="503.0" prefHeight="27.0" prefWidth="72.0">
          <font>
             <Font size="18.0" />
@@ -34,6 +29,42 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="sliderTime" layoutX="529.0" layoutY="471.0" prefHeight="14.0" prefWidth="661.0" style="-fx-cursor: hand;" />
+      <Slider fx:id="sliderTime" focusTraversable="false" layoutX="529.0" layoutY="471.0" prefHeight="14.0" prefWidth="661.0" style="-fx-cursor: hand;" />
+      <TableView fx:id="tbvCategories" prefHeight="564.0" prefWidth="149.0">
+        <columns>
+          <TableColumn fx:id="tbcCategories" prefWidth="148.7999939084053" text="Categories" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tbvMovies" layoutX="150.0" layoutY="37.0" onMouseMoved="#updateTables" prefHeight="527.0" prefWidth="337.0">
+        <columns>
+          <TableColumn fx:id="tbcIMDB" prefWidth="56.0" text="IMDB" />
+          <TableColumn fx:id="tbcUserRating" prefWidth="51.999969482421875" text="User" />
+            <TableColumn fx:id="tbcTitle" prefWidth="232.00001525878906" text="Title" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnAddCategory" focusTraversable="false" layoutX="10.0" layoutY="573.0" mnemonicParsing="false" onAction="#addCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnDeleteCategory" focusTraversable="false" layoutX="77.0" layoutY="573.0" mnemonicParsing="false" onAction="#deleteCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnAddMovie" focusTraversable="false" layoutX="170.0" layoutY="573.0" mnemonicParsing="false" onAction="#addMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnEditMovie" focusTraversable="false" layoutX="317.0" layoutY="572.0" mnemonicParsing="false" onAction="#editMoviePressed" prefHeight="26.0" prefWidth="150.0" text="Edit Movie Categories" />
+      <Button fx:id="btnDeleteMovie" focusTraversable="false" layoutX="240.0" layoutY="573.0" mnemonicParsing="false" onAction="#deleteMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <ButtonBar layoutX="564.0" layoutY="573.0" prefWidth="318.0">
+         <buttons>
+            <Button fx:id="btnRate1" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="1" />
+            <Button fx:id="btnRate2" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="2" />
+            <Button fx:id="btnRate3" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="3" />
+            <Button fx:id="btnRate4" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="4" />
+            <Button fx:id="btnRate5" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="5" />
+         </buttons>
+      </ButtonBar>
+      <Label layoutX="498.0" layoutY="576.0" text="Rate Movie:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="978.0" layoutY="538.0" text="Volume">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -2,38 +2,46 @@ package gui.model;
 
 import be.Category;
 import bll.CategoryManager;
+import bll.interfaces.ICategoryManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryModel {
-    CategoryManager cbll = new CategoryManager();
+    private ICategoryManager categoryManager;
     private ObservableList<Category> categories = FXCollections.observableArrayList();
 
-
-    public ObservableList<Category> getCategories() {
-        return categories;
+    public CategoryModel(){
+        categoryManager = new CategoryManager();
     }
 
 
-    public void createCategory( Category category) throws SQLException {
-        cbll.createCategory(category);
-        categories.remove((category.getId()));
+    public ObservableList<Category> getAllCategories() throws SQLException {
+        List<Category> temp = categoryManager.getAllCategories();
+        return categories = FXCollections.observableArrayList(temp);
     }
 
 
-    public void deleteCategory(int id) throws SQLException{
-        cbll.deleteCategory(id);
-
+    public void createCategory(Category category) throws SQLException {
+        categoryManager.createCategory(category);
+        categories.add(category);
 
     }
 
-
-    public void fetchAllCategories() throws SQLException {
-        categories.addAll(cbll.getAllCategories());
+    public void deleteCategory(Category category) throws SQLException {
+        categoryManager.deleteCategory(category.getId());
+        categories.remove(categories.indexOf(category));
     }
+
+
+    public int getMaxID() throws SQLException {
+        return categoryManager.getMaxID();
+    }
+
+
 }
+
+
 
 
