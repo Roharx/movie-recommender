@@ -21,7 +21,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Main.class.getResource("view/MovieRecommender.fxml"));
         primaryStage.setTitle(" Movie Application");
-        primaryStage.setScene(new Scene(root,1200,600));
+        primaryStage.setScene(new Scene(root,1200,610));
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }

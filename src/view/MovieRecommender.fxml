@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.media.MediaView?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="window" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MovieController">
+<AnchorPane fx:id="window" prefHeight="617.0" prefWidth="1200.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MovieController">
 
    <children>
-      <Button focusTraversable="false" layoutX="871.0" layoutY="535.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
+      <ButtonBar layoutX="578.0" layoutY="535.0">
+         <buttons>
+            <Button fx:id="resetButton" focusTraversable="false" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
+            <Button fx:id="buttonPps" focusTraversable="false" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#fastForward" prefHeight="26.0" prefWidth="44.0" text="⏩" />
+         </buttons>
+      </ButtonBar>
       <MediaView fx:id="mediaView" fitHeight="450.0" fitWidth="650.0" layoutX="535.0" layoutY="37.0" />
-      <TextField fx:id="txtSearch" focusTraversable="false" layoutX="149.0" prefHeight="38.0" prefWidth="338.0" />
-      <Slider fx:id="volumeSlider" focusTraversable="false" layoutX="967.0" layoutY="535.0" prefHeight="26.0" prefWidth="217.0" />
-      <Button fx:id="resetButton" focusTraversable="false" layoutX="762.0" layoutY="535.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="26.0" prefWidth="44.0" text="🔄" />
-      <Button focusTraversable="false" layoutX="563.0" layoutY="535.0" mnemonicParsing="false" onAction="#fastRewind" prefHeight="26.0" prefWidth="44.0" text="⏪" />
-      <Button fx:id="buttonPps" focusTraversable="false" layoutX="659.0" layoutY="535.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
+      <TextField fx:id="txtSearch" focusTraversable="false" layoutX="149.0" prefHeight="38.0" prefWidth="338.0" promptText="Search..." />
+      <Slider fx:id="volumeSlider" focusTraversable="false" layoutX="1032.0" layoutY="541.0" prefHeight="14.0" prefWidth="150.0" />
       <Label fx:id="labelCurrentTime" layoutX="535.0" layoutY="503.0" prefHeight="27.0" prefWidth="72.0">
          <font>
             <Font size="18.0" />
@@ -44,11 +42,11 @@
             <TableColumn fx:id="tbcTitle" prefWidth="232.00001525878906" text="Title" />
         </columns>
       </TableView>
-      <Button fx:id="btnAddCategory" focusTraversable="false" layoutX="8.0" layoutY="564.0" mnemonicParsing="false" onAction="#addCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
-      <Button fx:id="btnDeleteCategory" focusTraversable="false" layoutX="75.0" layoutY="564.0" mnemonicParsing="false" onAction="#deleteCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
-      <Button fx:id="btnAddMovie" focusTraversable="false" layoutX="170.0" layoutY="564.0" mnemonicParsing="false" onAction="#addMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
-      <Button fx:id="btnEditMovie" focusTraversable="false" layoutX="317.0" layoutY="563.0" mnemonicParsing="false" onAction="#editMoviePressed" prefHeight="26.0" prefWidth="150.0" text="Edit Movie Categories" />
-      <Button fx:id="btnDeleteMovie" focusTraversable="false" layoutX="240.0" layoutY="564.0" mnemonicParsing="false" onAction="#deleteMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnAddCategory" focusTraversable="false" layoutX="10.0" layoutY="573.0" mnemonicParsing="false" onAction="#addCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnDeleteCategory" focusTraversable="false" layoutX="77.0" layoutY="573.0" mnemonicParsing="false" onAction="#deleteCategoryPressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnAddMovie" focusTraversable="false" layoutX="170.0" layoutY="573.0" mnemonicParsing="false" onAction="#addMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Add" />
+      <Button fx:id="btnEditMovie" focusTraversable="false" layoutX="317.0" layoutY="572.0" mnemonicParsing="false" onAction="#editMoviePressed" prefHeight="26.0" prefWidth="150.0" text="Edit Movie Categories" />
+      <Button fx:id="btnDeleteMovie" focusTraversable="false" layoutX="240.0" layoutY="573.0" mnemonicParsing="false" onAction="#deleteMoviePressed" prefHeight="25.0" prefWidth="61.0" text="Delete" />
       <ButtonBar layoutX="564.0" layoutY="573.0" prefWidth="318.0">
          <buttons>
             <Button fx:id="btnRate1" focusTraversable="false" mnemonicParsing="false" onAction="#rateButtonClicked" text="1" />
@@ -59,6 +57,11 @@
          </buttons>
       </ButtonBar>
       <Label layoutX="498.0" layoutY="576.0" text="Rate Movie:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="978.0" layoutY="538.0" text="Volume">
          <font>
             <Font size="14.0" />
          </font>

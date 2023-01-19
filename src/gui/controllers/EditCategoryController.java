@@ -13,13 +13,16 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class EditCategoryController {
 
     //region FXML
     @FXML
-    public Label lblMovieTitle;
+    public Label lblMovieTitle,
+            lblMovieCategories;
     @FXML
     public Button btnOk,
             btnAddCategoryToMovie,
@@ -61,14 +64,13 @@ public class EditCategoryController {
     public void displayMovieTitle(String title) {
         lblMovieTitle.setText(title);
     }
-
-
     public void addCategoryToMovie(ActionEvent actionEvent) {
         try {
             movieModel.addCategoryToMovie(
                     movieModel.getMaxIDForCatMovie() + 1,
                     movieModel.getMovieByTitle(lblMovieTitle.getText()).getId(),
                     choiceCategory.getSelectionModel().getSelectedIndex() + 1);
+            JOptionPane.showMessageDialog(null, "Added category to movie.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,6 +81,7 @@ public class EditCategoryController {
             movieModel.removeCategoryFromMovie(
                     movieModel.getMovieByTitle(lblMovieTitle.getText()).getId(),
                     choiceCategory.getSelectionModel().getSelectedIndex() + 1);
+            JOptionPane.showMessageDialog(null, "Removed category from movie.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
